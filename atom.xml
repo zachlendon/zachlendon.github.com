@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Zach Lendon's Blog]]></title>
+  <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
+  <link href="http://zachlendon.github.com/"/>
+  <updated>2012-02-13T23:12:49-06:00</updated>
+  <id>http://zachlendon.github.com/</id>
+  <author>
+    <name><![CDATA[Zach Lendon]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
