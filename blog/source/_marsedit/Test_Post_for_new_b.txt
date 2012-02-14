@@ -1,0 +1,2 @@
+Test Post for new blog
+After a several year hiatus, I'm blogging again. I've setup Octopress as my blogging framework, and am using MarsEdit to create new blog posts. This is my test message to see if it all works!
