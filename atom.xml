@@ -4,11 +4,11 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-02-16T23:24:44-06:00</updated>
+  <updated>2012-02-16T23:27:55-06:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
-    
+    <email><![CDATA[zach.lendon@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
