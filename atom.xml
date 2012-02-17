@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-02-13T23:12:49-06:00</updated>
+  <updated>2012-02-16T23:20:49-06:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Test Post]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/02/16/test-post/"/>
+    <updated>2012-02-16T23:13:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/02/16/test-post</id>
+    <content type="html"><![CDATA[<p>Testing a new post workflow with Markdown and Octopress</p>
+]]></content>
+  </entry>
   
 </feed>
