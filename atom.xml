@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-02-17T00:47:41-06:00</updated>
+  <updated>2012-02-17T00:54:55-06:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -29,7 +29,7 @@
 </ul>
 
 
-<p>Well I&#8217;ve read enough to determine that <a href="http://octopress.org">Octopress</a> is the developer&#8217;s <a href="http://wordpress.org">Wordpress</a> (I probably first noted it being used on Matt Gemmell&#8217;s blog, and his post <a href="http://mattgemmell.com/2011/09/12/blogging-with-octopress/">his experiences blogging with Octopress</a>. I also determined <a href="http://github.com">GitHub</a> is as good of a place as any to host one, for starters at least - and works well with Git-hosted <a href="http://octopress.org">Octopress</a>.  <a href="http://octopress.org">Octopress&#8217;s</a> default theme (which this blog uses) provides good enough styling for a developer-centric blog in my opinion - for the time being at least.</p>
+<p>Well I&#8217;ve read enough to determine that <a href="http://octopress.org">Octopress</a> is the developer&#8217;s <a href="http://wordpress.org">Wordpress</a> (I probably first noted it being used on Matt Gemmell&#8217;s blog, and his post <a href="http://mattgemmell.com/2011/09/12/blogging-with-octopress/">his experiences blogging with Octopress</a>). I also determined <a href="http://github.com">GitHub</a> is as good of a place as any to host one, for starters at least - and works well with Git-hosted <a href="http://octopress.org">Octopress</a>.  <a href="http://octopress.org">Octopress&#8217;s</a> default theme (which this blog uses) provides good enough styling for a developer-centric blog in my opinion - for the time being at least.</p>
 
 <p>For now I&#8217;m using <a href="http://mouapp.com">Mouapp</a> for my Markdown editor - recommended by <a href="http://zanthrash.com/">@zanthrash</a> - while I thought I liked the idea of <a href="http://danimal.org/blog/2011/07/31/posting-to-octopress-from-marsedit/">posting to Octopress from MarsEdit</a>, I actually like the raw markdown editing better and being able to see the markup in the same window, vs. building html formatted posts.  Plus it isn&#8217;t that hard to create a new post in Mao, save it to my local blog posts folder, and do a rake generate and deploy - and have it pushed to my github pages repo see it live online - immediately.  I&#8217;m sure this will be a process that will scriptable to make it even easier to do with future posts.</p>
 
