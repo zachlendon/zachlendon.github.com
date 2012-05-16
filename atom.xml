@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-05-15T23:30:26-05:00</updated>
+  <updated>2012-05-15T23:37:24-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -76,9 +76,7 @@ class GebRemotePage extends Page {
 
 <p>You&#8217;ll notice that this page also builds the entire url to use and determines whether we need to use an ip address or can just use localhost.  This allows Geb to communicate with my mobile browser in both emulator and on-device scenarios.  I find this to be easier than port forwarding scenarios, which is the other known strategy for finding mobile browser instances that are not located on the same ip address as the running application.</p>
 
-<p>Another issue that I have run into that I&#8217;ve addressed through a base Spock &#8216;Spec&#8217; class is wanting to know when I&#8217;m testing via a mobile device.  I want to know this for 2 reasons -</p>
-
-<p>2) So that I can have &#8216;switch&#8217; logic in my code, if I so choose, to do something different if I&#8217;m running on a mobile device vs. if I&#8217;m not - similar to <a href="http://grails.org/plugin/spring-mobile">withMobileDevice from the Spring Mobile Grails Plugin</a>.</p>
+<p>Another issue that I have run into that I&#8217;ve addressed through a base Spock &#8216;Spec&#8217; class is wanting to know when I&#8217;m testing via a mobile device.  I find this useful as it allows me that option of having &#8216;switch&#8217; logic in my Geb code, if I so choose, to do something different if I&#8217;m running on a mobile device vs. if I&#8217;m not - similar to <a href="http://grails.org/plugin/spring-mobile">withMobileDevice from the Spring Mobile Grails Plugin</a>.</p>
 
 <p>An example base specification for this might look like:</p>
 
@@ -100,9 +98,9 @@ class GebRemotePage extends Page {
 }</code></pre></noscript></div>
 
 
-<p>With this &#8216;isMobile&#8217; @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.</p>
+<p>With this &#8216;isMobile&#8217; @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.  You&#8217;ll see in my <a href="https://github.com/zachlendon/flashcards-grails/blob/master/test/functional/com/kgrodzicki/flashcard/grails/LessonsSpec.groovy">LessonsSpec</a> class that I do switch &#8216;setup&#8217; logic for my tests where I need to bootstrap some data.  With the desktop application, I can do this by uploading a file.  On a mobile web application - especially iOS - good luck uploading a file on a mobile web application.  With my &#8216;isMobile&#8217; switch, I can choose to manually &#8216;seed&#8217; an in-memory H2 database with data when on a mobile device, vs. actually uploading the data through the browser when on the desktop device.  While this creates some undesirable complexity in the code, it does allow for re-usability of the Spec class between mobile and desktop versions.  In the end, it&#8217;s the developers choice and the one chosen in this particular test isn&#8217;t intended to be correct for this use case or any other - it&#8217;s more intended to demonstrate capabilities.</p>
 
-<p>Hopefully this sample application and examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side creates additional wrinkles.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other applications makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).</p>
+<p>In the end, hopefully this sample application and the pulled out examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools, like Geb and Spock, that we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side can be challenging.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other applications makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).  Couple this with running these tests on mobile emulator and mobile devices (instead of simply spoofing user-agent strings to act like mobile device), and developers and test builders are created with an array of challenges.  Limiting these challenges going forward will allow us to help the clients we work for create better desktop and mobile web applications in the years ahead.</p>
 ]]></content>
   </entry>
   
