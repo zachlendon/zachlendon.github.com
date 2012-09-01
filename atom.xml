@@ -4,13 +4,287 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-02-13T23:12:49-06:00</updated>
+  <updated>2012-05-16T00:05:52-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
-    
+    <email><![CDATA[zach.lendon@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Improving Mobile Capabilities of Geb Pages and Spock Specifications]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/"/>
+    <updated>2012-05-15T22:54:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications</id>
+    <content type="html"><![CDATA[<p>I spoke this evening at <a href="ojug.org">OJUG</a> about automated testing of mobile web applications on mobile devices with <a href="http://www.gebish.org/">Geb</a> and <a href="http://code.google.com/p/spock/">Spock</a>.  The source code that I demoed during the talk is on <a href="https://github.com/zachlendon/flashcards-grails/">GitHub</a>.</p>
+
+<p>With the original forked application, different Grails layouts were used for the mobile version (which leverages <a href="jquerymobile.com/">JQuery Mobile</a>) of the app vs. the non-mobile version.  As can be found in many similar web applications, the mobile version acts as a slimmed down version of the desktop application, with limited functionality and different urls to access certain pages.  This creates challenges when writing functional tests for the application - even with great frameworks such as Geb and Spock.  While one way to address these challenges is to build the application differently so as to not encounter them, in reality that may not be in the developer&#8217;s complete control.  And even when it is, it likely is not a viable  solution for removing all &#8220;challenges&#8221; that will come about when trying to create functional tests around a mobile web application.  It&#8217;s just not an area that is refined to that level yet.  For my forked &#8216;flashcards&#8217; app, I addressed some of the challenges, but left many in place.  With that as a baseline, I did, as part of my talk, give a few examples of ways to address these challenges using Geb and Spock that I&#8217;d like to share.</p>
+
+<p>One challenge I referenced above is with the URL that you &#8216;drive&#8217; to using <a href="http://seleniumhq.org/docs/03_webdriver.html">WebDriver</a> is typically defined statically as a <a href="http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#url">url property in your Geb Page Object</a>.  But what if you want to use the same page object but have a different url for your mobile version?  And what if you want to define a different <a href="http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#at">at</a> condition when you have arrived at the page for mobile?  Define mobileUrl and mobileAt properties of course - which I do in this base page class.</p>
+
+<div><script src='https://gist.github.com/2707275.js?file='></script>
+<noscript><pre><code>
+class GebRemotePage extends Page {
+
+
+    /**
+     * Returns the constant part of the url to this page.
+     * &lt;p&gt;
+     * This implementation returns the static url property of the class.
+     */
+    @Override
+    String getPageUrl() {
+        //if we are using a remote web driver then we have to use the ip address of the local instance.
+        //To keep the individual page objects &quot;cleaner&quot;, we try to deduce when we need the full url
+        //and put it in only in those scenarios.  The downside is we assume port.  Perhaps/ideally
+        //there's a way to ask grails for just this part and we can make that dynamic
+        if (getDriver() instanceof RemoteWebDriver) {
+            RemoteWebDriver remoteWebDriver = getDriver()
+            DesiredCapabilities capabilities = remoteWebDriver.getCapabilities()
+            def contextPathToUse = this.class.url
+            def hostToUse = &quot;localhost&quot;
+            if ([&quot;android&quot;, &quot;iPhone&quot;, &quot;iPad&quot;].contains(capabilities.browserName)) {
+                hostToUse = InetAddress.getLocalHost().getHostAddress()
+                if (this.class.hasProperty(&quot;mobileUrl&quot;)) {
+                    contextPathToUse = this.class.mobileUrl
+                }
+            }
+            return &quot;http://&quot; + hostToUse + &quot;:&quot; + &quot;8080&quot; + contextPathToUse
+        }
+        this.class.url
+    }
+
+    @Override
+    boolean verifyAt() {
+        if (this.class.hasProperty(&quot;mobileAt&quot;)) {
+            def verifier = this.class.mobileAt?.clone()
+            if (verifier) {
+                verifier.delegate = this
+                verifier.resolveStrategy = Closure.DELEGATE_FIRST
+                verifier()
+            } else {
+                true
+            }
+            super.verifyAt()
+        }
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>You&#8217;ll notice that this page also builds the entire url to use and determines whether we need to use an ip address or can just use localhost.  This allows Geb to communicate with my mobile browser in both emulator and on-device scenarios.  I find this to be easier than port forwarding scenarios, which is the other known strategy for finding mobile browser instances that are not located on the same ip address as the running application.</p>
+
+<p>Another issue that I have run into that I&#8217;ve addressed through a base Spock &#8216;Spec&#8217; class is wanting to know when I&#8217;m testing via a mobile device.  I find this useful as it allows me the option of having &#8216;switch&#8217; logic in my Geb code, if I so choose, to do something different if I&#8217;m running on a mobile device vs. if I&#8217;m not - similar to <a href="http://grails.org/plugin/spring-mobile">withMobileDevice from the Spring Mobile Grails Plugin</a>.</p>
+
+<p>An example base specification for this might look like:</p>
+
+<div><script src='https://gist.github.com/2707341.js?file='></script>
+<noscript><pre><code>class MobileSpec extends GebReportingSpec {
+
+    @Shared
+    def isMobile = false
+
+    def setupSpec() {
+        if (getBrowser().driver instanceof RemoteWebDriver) {
+            RemoteWebDriver remoteWebDriver = getBrowser().driver
+            DesiredCapabilities capabilities = remoteWebDriver.getCapabilities()
+            if ([&quot;android&quot;, &quot;iPhone&quot;, &quot;iPad&quot;].contains(capabilities.browserName)) {
+                isMobile = true
+            }
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>With this &#8216;isMobile&#8217; @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.  You&#8217;ll see in my <a href="https://github.com/zachlendon/flashcards-grails/blob/master/test/functional/com/kgrodzicki/flashcard/grails/LessonsSpec.groovy">LessonsSpec</a> class that I do switch &#8216;setup&#8217; logic for my tests where I need to bootstrap some data.  With the desktop application, I can do this by uploading a file.  On a mobile web application - especially iOS - good luck uploading a file on a mobile web application.  With my &#8216;isMobile&#8217; switch, I can choose to manually &#8216;seed&#8217; an in-memory H2 database with data when on a mobile device, vs. actually uploading the data through the browser when on the desktop device.  While this creates some undesirable complexity in the code, it does allow for re-usability of the Spec class between mobile and desktop versions.  In the end, it&#8217;s the developer&#8217;s choice and the one chosen in this particular test isn&#8217;t intended to be correct for this use case or any other - it&#8217;s more intended to demonstrate capabilities.</p>
+
+<p>In the end, hopefully this sample application and the pulled out examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools, like Geb and Spock, that we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side can be challenging.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other frameworks makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).  Couple this with running these tests on mobile emulators and mobile devices (instead of simply spoofing user-agent strings to act like mobile device), and developers and test builders are created with an array of challenges.  Limiting these challenges going forward will allow us to help the clients we work for create better quality, tested desktop and mobile web applications in the years ahead.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.js: from Hashbangs to HTML5 PushState]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/"/>
+    <updated>2012-02-21T22:45:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate</id>
+    <content type="html"><![CDATA[<p>All kinds of <a href="http://isolani.co.uk/blog/javascript/BreakingTheWebWithHashBangs">talk lately</a> about hash-bang URLs (http://url#fragment) and how they will lead to the end of civilization (seemingly) this coming December.  I was one of the guilty parties, implementing hash-bangs in a heavy AJAX mobile application I&#8217;ve been working on, even though nearly (if not) all of the browsers the users would have would support <a href="http://dev.w3.org/html5/spec-author-view/history.html#dom-history-pushstate">HTML5 PushState</a>.  I did this being aware of the burdgeoning holy war, and had always intended to convert.  It actually fits more cleanly into the conventions of the Grails back-end for the application - i.e., http://url/fragment - and it&#8217;s HTML5, the future - plus all the other reasons those articles allude to (however opinionated or valid they might actually be).  Nevertheless, my two-staged approach was more a matter of already knowing how to do the hash-bang approach and needing to understand better the pushState approach prior to implementing it.</p>
+
+<p>Much of the mobile webapp in question is built upon <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>  (which is AWESOME) - and I find it can often take a bit of investigative work (blog/documentation/source code reading + experimentation) to figure out exactly how to do something &#8216;well&#8217;.  It&#8217;s really pretty simple to switch between a &#8216;hashbang&#8217; approach and a pushState approach with backbone.js - but it didn&#8217;t always seem that way.  First some setup then some key takeaways:</p>
+
+<p>Typically at some point in your backbone.js MVC workflow you are updating the state of your models and/or collections on the front-end through communicating with the server.  As a result, backbone.js will fire a corresponding add, remove or reset event, which you as the event-informed developer will hook into and bind your own JS function(s) against.  If you wish to update the browser url - such that it is bookmarkable and works as a state in your browser&#8217;s history - you&#8217;ll typically do this here.</p>
+
+<p>So there&#8217;s your background.  Now let&#8217;s look at the two scaled down versions of common backbone.js use cases and discuss the subtle different of approach - first hashbang:</p>
+
+<div><script src='https://gist.github.com/1881657.js?file='></script>
+<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
+ $.mobile.pushStateEnabled = false;
+
+new App.Routers.TodosRouter();
+Backbone.history = Backbone.history || new Backbone.History({});
+Backbone.history.start();
+
+//Backbone Router
+App.Routers.TodosRouter = Backbone.Router.extend({
+
+    routes: {
+        &quot;:toDoId&quot;:        &quot;loadTodo&quot;
+    },
+
+    initialize: function() {
+        this.todos = new App.Collections.Todos();
+        this.todoView = new App.Views.TodoView({collection: this.todos});
+        this.todos.fetch();
+    },
+
+    loadTodo: function(toDoId) {
+     //hear you have your id and your todos collection
+     //you would use underscore and/or backbone collection functionality to get
+     //the model object (represented by model below) you want
+     ...
+     this.todoView.setModelAndRender(model);
+    }
+
+// The View
+App.Views.TodoView = Backbone.View.extend({
+
+    el:'.content',
+
+    events: {
+    },
+
+    initialize:function () {
+        this.collection.bind('reset', this.navigateToTodo, this);
+        this.collection.bind('add', this.navigateToTodo, this);
+    },
+
+    navigateToTodo () {
+        Backbone.history.navigate('#' + this.model.toJSON().id);
+        return this;
+    },
+
+    setModelAndRender: function(model) {
+        this.model = model;
+        this.render();
+        return this;
+    },
+
+    render:function () {
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>then HTML5 pushState:</p>
+
+<div><script src='https://gist.github.com/1881650.js?file='></script>
+<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
+ $.mobile.pushStateEnabled = false;
+
+new App.Routers.TodosRouter();
+Backbone.history = Backbone.history || new Backbone.History({});
+Backbone.history.start({pushState:true});
+
+//Backbone Router
+App.Routers.TodosRouter = Backbone.Router.extend({
+
+    routes: {
+        &quot;/contextPath/:toDoId&quot;:        &quot;loadTodo&quot;
+    },
+
+    initialize: function() {
+        this.todos = new App.Collections.Todos();
+        this.todoView = new App.Views.TodoView({collection: this.todos});
+        this.todos.fetch();
+    },
+
+    loadTodo: function(toDoId) {
+     //hear you have your id and your todos collection
+     //you would use underscore and/or backbone collection functionality to get
+     //the model object (represented by model below) you want
+     ...
+     this.todoView.setModelAndRender(model);
+    }
+
+// The View
+App.Views.TodoView = Backbone.View.extend({
+
+    el:'.content',
+
+    events: {
+    },
+
+    initialize:function () {
+        this.collection.bind('reset', this.navigateToTodo, this);
+        this.collection.bind('add', this.navigateToTodo, this);
+    },
+
+    navigateToTodo () {
+        Backbone.history.navigate('/todos/' + this.model.toJSON().id, {trigger: true});
+        return this;
+    },
+
+    setModelAndRender: function(model) {
+        this.model = model;
+        this.render();
+        return this;
+    },
+
+    render:function () {
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>They look pretty similar.  Note that with the pushState version we have a $.mobile.pushStateEnabled = false;.  That&#8217;s so if our project has JQuery Mobile that it plays nicely.  There&#8217;s the whole {pushState:true} option declaration when starting the backbone history, but that&#8217;s pretty evident/expected.  Notice with the router that the pushState version has the /contextPath before the :toDoId while the hashbang version just has the :toDoId.  Backbone&#8217;s history functionality has the concept of a &#8216;root&#8217; url - where presumably one could set the contextPath and all url&#8217;s in your backbone implementation would be based off of that, but I found in practice that my url&#8217;s at best weren&#8217;t consistent on when they did or didn&#8217;t use that root definition.  So I&#8217;d almost recommend seeing if a root url works for you (especially if you have no contextPath) but having this as your fallback. I almost found it clearer to define the full context path where needed - as opposed to having a root path used in Backbone history - and ensuring it would work there - and then leveraging a context path elsewhere - vs. just being explicit across the few areas where url&#8217;s exist in one&#8217;s backbone app.  Nevertheless, I could imagine this &#8216;base root context path&#8217; being configured as a global variable (or in general be configurable) for some apps where the contextPath could change based on environment (helping bring consistency to your url syntax across your backbone.js layer), but for my use case I haven&#8217;t crossed that bridge yet.</p>
+
+<p>Back on topic, note the:</p>
+
+<p>Backbone.history.navigate(&#8216;#&#8217; + this.model.toJSON().id);</p>
+
+<p>vs.</p>
+
+<p>Backbone.history.navigate(&#8216;/todos/&#8217; + this.model.toJSON().id, {trigger: true});</p>
+
+<p>This in general seems pretty sensible, but the trigger scenario is significant here (and is noted in the backbone docs) - so that my loadTodo router method gets called.  With the hashbang approach, the hashchange event was just being picked up and the router method was getting called by backbone.  I believe there&#8217;s something I could be doing where the router function in question could automatically be called in both scenarios - but it&#8217;s good to know that if the router method isn&#8217;t getting called that this option is the cure.  It&#8217;s much more elegant at least than the manual calls to the router method that you see in some online examples.</p>
+
+<p>Other than that, you&#8217;re really set.  Regardless of implementation, the &#8220;requirement&#8221; is that the url&#8217;s you &#8220;save&#8221; should be bookmarkable - i.e., not broken at least and should presumably show the same state of the app that the user sees when the url is initially presented.  That makes them also convenient to use as the identifiers in your history, as in the end you are manipulating the browser&#8217;s &#8216;back&#8217; history state, should your user use the browser&#8217;s back button in your javascript heavy application.   And even though in practice backbone.js is most ideal in SPA (single page architecture) applications, even in those applications, being able to return to previous view states is often a requirement.  One trick in restoring these &#8216;states&#8217; is often the models you need to re-render those states are in the backbone collections you already have locally, so you may just be able to grab the right models (based on one or more identifiers in the url) and re-render the view.  There&#8217;s also the option that you&#8217;ve chosen to cache an HTML5 page in the DOM and can simply transition to that page in your UI upon navigating to particular points in your Backbone.js history.</p>
+
+<p>So while this code hopefully helps provide some examples for the UI prospective, don&#8217;t forget the back-end piece of ensuring that the url&#8217;s you are saving can be returned to and provide valid results.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Up and Blogging with Octopress, Mao and GitHub Pages]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao/"/>
+    <updated>2012-02-17T00:34:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been meaning to get back into blogging for a while.  Blogging seems like the 2006 thing to do, right?  Nevertheless, I really enjoy the technologies I get to work with on an almost daily basis - namely iOS, Grails and various mobile frameworks (JQuery Mobile, Backbone.js, underscore.js, etc.), and hopefully I run across a few things that might be of use to some other people.  At least I&#8217;d like to use this blog to help give an outlet to that illusion.  Having a blog also lets me rant about things and have it stored online for an indeterminate amount of time - who doesn&#8217;t like having their words haunt them for years on end?</p>
+
+<p>So with all that being said, I&#8217;ve had a long list of weak excuses why I hadn&#8217;t gotten a blog going, and high on the list was pretty things like</p>
+
+<ul>
+<li>Need to figure out where to host it</li>
+<li>Need to figure out what software to use</li>
+<li>Need to figure out what styling to use</li>
+</ul>
+
+
+<p>Well I&#8217;ve read enough to determine that <a href="http://octopress.org">Octopress</a> is the developer&#8217;s <a href="http://wordpress.org">Wordpress</a> (I probably first noted it being used on Matt Gemmell&#8217;s blog, and his post <a href="http://mattgemmell.com/2011/09/12/blogging-with-octopress/">his experiences blogging with Octopress</a>). I also determined <a href="http://github.com">GitHub</a> is as good of a place as any to host one, for starters at least - and works well with Git-hosted <a href="http://octopress.org">Octopress</a>.  <a href="http://octopress.org">Octopress&#8217;s</a> default theme (which this blog uses) provides good enough styling for a developer-centric blog in my opinion - for the time being at least.</p>
+
+<p>For now I&#8217;m using <a href="http://mouapp.com">Mouapp</a> for my Markdown editor - recommended by <a href="http://zanthrash.com/">@zanthrash</a> - while I thought I liked the idea of <a href="http://danimal.org/blog/2011/07/31/posting-to-octopress-from-marsedit/">posting to Octopress from MarsEdit</a>, I actually like the raw markdown editing better and being able to see the markup in the same window, vs. building html formatted posts.  Plus it isn&#8217;t that hard to create a new post in Mao, save it to my local blog posts folder, and do a rake generate and deploy - and have it pushed to my github pages repo see it live online - immediately.  I&#8217;m sure this will be a process that will scriptable to make it even easier to do with future posts.</p>
+
+<p>A couple things I did note during the process - which probably are obvious to many but weren&#8217;t initially to me</p>
+
+<ul>
+<li>To ensure that individual blog pages get generated properly you must have the markdown section rake&#8217;s new_post command generates at the top of your markdown file</li>
+<li>Strings should be in quotes in your Octopress _config.yml file, or you&#8217;ll likely get parse errors</li>
+</ul>
+
+
+<p>If anyone has tips to make the use of these technologies even better going forward please pass them along.</p>
+]]></content>
+  </entry>
   
 </feed>
