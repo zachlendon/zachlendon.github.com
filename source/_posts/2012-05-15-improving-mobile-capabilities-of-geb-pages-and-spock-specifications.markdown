@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Improving Mobile Capabilities of Geb Pages and Spock Specifications"
+date: 2012-05-15 22:54
+comments: true
+categories: 
+---
+I spoke this evening at [OJUG](ojug.org) about automated testing of mobile web applications on mobile devices with [Geb](http://www.gebish.org/) and [Spock](http://code.google.com/p/spock/).  The source code that I demoed during the talk is on [GitHub](https://github.com/zachlendon/flashcards-grails/).
+
+With the original forked application, different Grails layouts were used for the mobile version (which leverages [JQuery Mobile](jquerymobile.com/
+)) of the app vs. the non-mobile version.  As can be found in many similar web applications, the mobile version acts as a slimmed down version of the desktop application, with limited functionality and different urls to access certain pages.  This creates challenges when writing functional tests for the application - even with great frameworks such as Geb and Spock.  While one way to address these challenges is to build the application differently so as to not encounter them, in reality that may not be in the developer's complete control.  And even when it is, it likely is not a viable  solution for removing all "challenges" that will come about when trying to create functional tests around a mobile web application.  It's just not an area that is refined to that level yet.  For my forked 'flashcards' app, I addressed some of the challenges, but left many in place.  With that as a baseline, I did, as part of my talk, give a few examples of ways to address these challenges using Geb and Spock that I'd like to share.  
+
+One challenge I referenced above is with the URL that you 'drive' to using [WebDriver](http://seleniumhq.org/docs/03_webdriver.html) is typically defined statically as a [url property in your Geb Page Object](http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#url).  But what if you want to use the same page object but have a different url for your mobile version?  And what if you want to define a different [at](http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#at) condition when you have arrived at the page for mobile?  Define mobileUrl and mobileAt properties of course - which I do in this base page class.
+
+{% gist 2707275 %}
+
+You'll notice that this page also builds the entire url to use and determines whether we need to use an ip address or can just use localhost.  This allows Geb to communicate with my mobile browser in both emulator and on-device scenarios.  I find this to be easier than port forwarding scenarios, which is the other known strategy for finding mobile browser instances that are not located on the same ip address as the running application.  
+
+Another issue that I have run into that I've addressed through a base Spock 'Spec' class is wanting to know when I'm testing via a mobile device.  I find this useful as it allows me the option of having 'switch' logic in my Geb code, if I so choose, to do something different if I'm running on a mobile device vs. if I'm not - similar to [withMobileDevice from the Spring Mobile Grails Plugin](http://grails.org/plugin/spring-mobile).
+
+An example base specification for this might look like:
+
+{% gist 2707341 %}
+
+With this 'isMobile' @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.  You'll see in my [LessonsSpec](https://github.com/zachlendon/flashcards-grails/blob/master/test/functional/com/kgrodzicki/flashcard/grails/LessonsSpec.groovy) class that I do switch 'setup' logic for my tests where I need to bootstrap some data.  With the desktop application, I can do this by uploading a file.  On a mobile web application - especially iOS - good luck uploading a file on a mobile web application.  With my 'isMobile' switch, I can choose to manually 'seed' an in-memory H2 database with data when on a mobile device, vs. actually uploading the data through the browser when on the desktop device.  While this creates some undesirable complexity in the code, it does allow for re-usability of the Spec class between mobile and desktop versions.  In the end, it's the developer's choice and the one chosen in this particular test isn't intended to be correct for this use case or any other - it's more intended to demonstrate capabilities.
+
+In the end, hopefully this sample application and the pulled out examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools, like Geb and Spock, that we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side can be challenging.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other frameworks makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).  Couple this with running these tests on mobile emulators and mobile devices (instead of simply spoofing user-agent strings to act like mobile device), and developers and test builders are created with an array of challenges.  Limiting these challenges going forward will allow us to help the clients we work for create better quality, tested desktop and mobile web applications in the years ahead.
