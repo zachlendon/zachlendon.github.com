@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Up and Blogging with Octopress, Mao and GitHub Pages - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I&#8217;ve been meaning to get back into blogging for a while. Blogging seems like the 2006 thing to do, right? Nevertheless, I really enjoy the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zachlendon.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Up and Blogging With Octopress, Mao and GitHub Pages</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-17T00:34:00-06:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;ve been meaning to get back into blogging for a while.  Blogging seems like the 2006 thing to do, right?  Nevertheless, I really enjoy the technologies I get to work with on an almost daily basis - namely iOS, Grails and various mobile frameworks (JQuery Mobile, Backbone.js, underscore.js, etc.), and hopefully I run across a few things that might be of use to some other people.  At least I&#8217;d like to use this blog to help give an outlet to that illusion.  Having a blog also lets me rant about things and have it stored online for an indeterminate amount of time - who doesn&#8217;t like having their words haunt them for years on end?</p>
+
+<p>So with all that being said, I&#8217;ve had a long list of weak excuses why I hadn&#8217;t gotten a blog going, and high on the list was pretty things like</p>
+
+<ul>
+<li>Need to figure out where to host it</li>
+<li>Need to figure out what software to use</li>
+<li>Need to figure out what styling to use</li>
+</ul>
+
+
+<p>Well I&#8217;ve read enough to determine that <a href="http://octopress.org">Octopress</a> is the developer&#8217;s <a href="http://wordpress.org">Wordpress</a> (I probably first noted it being used on Matt Gemmell&#8217;s blog, and his post <a href="http://mattgemmell.com/2011/09/12/blogging-with-octopress/">his experiences blogging with Octopress</a>). I also determined <a href="http://github.com">GitHub</a> is as good of a place as any to host one, for starters at least - and works well with Git-hosted <a href="http://octopress.org">Octopress</a>.  <a href="http://octopress.org">Octopress&#8217;s</a> default theme (which this blog uses) provides good enough styling for a developer-centric blog in my opinion - for the time being at least.</p>
+
+<p>For now I&#8217;m using <a href="http://mouapp.com">Mouapp</a> for my Markdown editor - recommended by <a href="http://zanthrash.com/">@zanthrash</a> - while I thought I liked the idea of <a href="http://danimal.org/blog/2011/07/31/posting-to-octopress-from-marsedit/">posting to Octopress from MarsEdit</a>, I actually like the raw markdown editing better and being able to see the markup in the same window, vs. building html formatted posts.  Plus it isn&#8217;t that hard to create a new post in Mao, save it to my local blog posts folder, and do a rake generate and deploy - and have it pushed to my github pages repo see it live online - immediately.  I&#8217;m sure this will be a process that will scriptable to make it even easier to do with future posts.</p>
+
+<p>A couple things I did note during the process - which probably are obvious to many but weren&#8217;t initially to me</p>
+
+<ul>
+<li>To ensure that individual blog pages get generated properly you must have the markdown section rake&#8217;s new_post command generates at the top of your markdown file</li>
+<li>Strings should be in quotes in your Octopress _config.yml file, or you&#8217;ll likely get parse errors</li>
+</ul>
+
+
+<p>If anyone has tips to make the use of these technologies even better going forward please pass them along.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-17T00:34:00-06:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao/" data-via="" data-counturl="http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/" title="next Post: Backbone.js: from Hashbangs to HTML5 PushState">Backbone.js: from Hashbangs to HTML5 PushState &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/12/log4javascript-local-storage-custom-appender/">Log4Javascript - Quick Intro and a LocalStorage Custom Appender</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the fine line of investment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/">Improving Mobile Capabilities of Geb Pages and Spock Specifications</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: from Hashbangs to HTML5 PushState</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/17/up-and-blogging-with-mao/">Up and Blogging with Octopress, Mao and GitHub Pages</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

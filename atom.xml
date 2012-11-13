@@ -1,99 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
-
-  
-  <meta name="description" content="With the continuing shift to the client-side for more and more processing in today&#8217;s web applications, be they mobile-specific or not, &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://zachlendon.github.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
-  
-    <h2>A blogging framework for hackers.</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zachlendon.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
+  <link href="http://zachlendon.github.com/"/>
+  <updated>2012-11-12T23:29:07-06:00</updated>
+  <id>http://zachlendon.github.com/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/11/12/log4javascript-local-storage-custom-appender/">Log4Javascript - Quick Intro and a LocalStorage Custom Appender</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-11-12T20:52:00-06:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>With the continuing shift to the client-side for more and more processing in today&#8217;s web applications, be they mobile-specific or not, effective logging of the running state of this part of your application is critical.  There are a bevy of different solutions to your client-side logging needs, and I present this customization of <a href="http://log4javascript.org/">Log4Javascript</a> as not an endorsement of <a href="http://log4javascript.org/">Log4Javascript</a> as any sort of holy grail - but it is inevitably a demonstration that it is a viable, customizable solution that you should consider if you are working on a project that has needs in this area.</p>
+  <entry>
+    <title type="html"><![CDATA[Log4Javascript - Quick Intro and a LocalStorage Custom Appender]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/11/12/log4javascript-local-storage-custom-appender/"/>
+    <updated>2012-11-12T20:52:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/11/12/log4javascript-local-storage-custom-appender</id>
+    <content type="html"><![CDATA[<p>With the continuing shift to the client-side for more and more processing in today&#8217;s web applications, be they mobile-specific or not, effective logging of the running state of this part of your application is critical.  There are a bevy of different solutions to your client-side logging needs, and I present this customization of <a href="http://log4javascript.org/">Log4Javascript</a> as not an endorsement of <a href="http://log4javascript.org/">Log4Javascript</a> as any sort of holy grail - but it is inevitably a demonstration that it is a viable, customizable solution that you should consider if you are working on a project that has needs in this area.</p>
 
 <p><a href="http://log4javascript.org/">Log4Javascript</a> comes with a collection of appenders and a grouping of logging levels that gives you the type of logging you&#8217;ve probably grown accustomed to in your server-side development efforts.  Hop over to this JSFiddle and look at a sample Hello World type example that would output a log message to your <a href="http://jsfiddle.net/QpK4t/10/">Browser Console</a></p>
 
@@ -165,42 +90,15 @@
 <p>Additional items to think about when using this type of logging appender includes cleaning up the LocalStorage data you have added when it is no longer useful - for example, upon entry/exit of portions of your application.</p>
 
 <p>I think using LocalStorage is a nice approach for local through production environment client-side logging as it provides a way to consistenly log the client portion of your application and selectively report back to the server when you have issues.  It especially hits a nice sweet spot for mobile web applications where client-side code execution/handling can unexpectedly vary across OS&#8217;s and their various browsers.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the Fine Line of Investment</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-31T21:14:00-05:00" pubdate data-updated="true">Aug 31<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Kickstarter&#8217;s <a href="http://www.kickstarter.com/terms-of-use">Terms of Use</a> states that it is a platform &#8220;where Project Creators run campaigns to fund creative projects by offering rewards to raise money from Backers.&#8221;  In many ways this has similarities to investing in the stock market, where one puts up money with the hope of getting a reward - more money.  When you do get more money in the market, you pay taxes on it.  When you get a reward on Kickstarter, the Terms of Use makes no reference of any such tax liability.  In the Kickstarter case, how much an individual might pay in the unlikely event that doing so would make them a good citizen is incredibly unclear, as the &#8220;value&#8221; of the product often cannot be easily determined.</p>
+  <entry>
+    <title type="html"><![CDATA[Kickstarter and the fine line of investment]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/"/>
+    <updated>2012-08-31T21:14:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment</id>
+    <content type="html"><![CDATA[<p>Kickstarter&#8217;s <a href="http://www.kickstarter.com/terms-of-use">Terms of Use</a> states that it is a platform &#8220;where Project Creators run campaigns to fund creative projects by offering rewards to raise money from Backers.&#8221;  In many ways this has similarities to investing in the stock market, where one puts up money with the hope of getting a reward - more money.  When you do get more money in the market, you pay taxes on it.  When you get a reward on Kickstarter, the Terms of Use makes no reference of any such tax liability.  In the Kickstarter case, how much an individual might pay in the unlikely event that doing so would make them a good citizen is incredibly unclear, as the &#8220;value&#8221; of the product often cannot be easily determined.</p>
 
 <p>Kickstarter is also like the stock market in that you could wake up one morning and realize you&#8217;ve lost all of your investment.  In the stock market, at least you would be able to deduct a capital loss on your taxes, while with a Kickstarter project you are left to kick yourself for backing the project, and to fight for something from the project creator(s).  I believe it is fair not to tax the rewards on Kickstarter if you don&#8217;t get to also deduct the losses.</p>
 
@@ -211,42 +109,15 @@
 <p>As more and more &#8216;business&#8217; gets conducted on Kickstarter, I believe it will come under regulatory scrutiny.  There has not been a public marketplace to date that I&#8217;m aware of that hasn&#8217;t in time fallen under regulatory scrutiny.  You could say that selling new products on Amazon and eBay is a pretty wide open marketplace, but I would retort that those marketplaces are indeed under scrutiny.  As I said, money chases money, and when money and products change hands in a very public fashion and aren&#8217;t taxed or regulated, that doesn&#8217;t last forever.</p>
 
 <p>I&#8217;ve backed two Kickstarter projects personally <a href="http://www.kickstarter.com/projects/smartthings/smartthings-make-your-world-smarter/">SmartThings</a> and <a href="http://www.kickstarter.com/projects/supr/slim-the-thinnest-wallet-ever">SlimWallet</a> - both great looking projects - and if those projects go well I&#8217;m certainly likely to press my luck and invest in more projects that I find appealing.  Like any market, blow ups and the regulators will come a calling.  I&#8217;m going to enjoy the marketplace before outside forces try and ruin it.  And I&#8217;m going to try and &#8220;invest&#8221; carefully - and so should you.  Often Wall Street is considered a &#8220;legal casino&#8221; and be assured that Kickstarter is also a casino - an online, hipster casino.  As in all casinos, the house has the advantage, so in time you will lose.  Place your bets carefully.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/">Improving Mobile Capabilities of Geb Pages and Spock Specifications</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-05-15T22:54:00-05:00" pubdate data-updated="true">May 15<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I spoke this evening at <a href="ojug.org">OJUG</a> about automated testing of mobile web applications on mobile devices with <a href="http://www.gebish.org/">Geb</a> and <a href="http://code.google.com/p/spock/">Spock</a>.  The source code that I demoed during the talk is on <a href="https://github.com/zachlendon/flashcards-grails/">GitHub</a>.</p>
+  <entry>
+    <title type="html"><![CDATA[Improving Mobile Capabilities of Geb Pages and Spock Specifications]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/"/>
+    <updated>2012-05-15T22:54:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications</id>
+    <content type="html"><![CDATA[<p>I spoke this evening at <a href="ojug.org">OJUG</a> about automated testing of mobile web applications on mobile devices with <a href="http://www.gebish.org/">Geb</a> and <a href="http://code.google.com/p/spock/">Spock</a>.  The source code that I demoed during the talk is on <a href="https://github.com/zachlendon/flashcards-grails/">GitHub</a>.</p>
 
 <p>With the original forked application, different Grails layouts were used for the mobile version (which leverages <a href="jquerymobile.com/">JQuery Mobile</a>) of the app vs. the non-mobile version.  As can be found in many similar web applications, the mobile version acts as a slimmed down version of the desktop application, with limited functionality and different urls to access certain pages.  This creates challenges when writing functional tests for the application - even with great frameworks such as Geb and Spock.  While one way to address these challenges is to build the application differently so as to not encounter them, in reality that may not be in the developer&#8217;s complete control.  And even when it is, it likely is not a viable  solution for removing all &#8220;challenges&#8221; that will come about when trying to create functional tests around a mobile web application.  It&#8217;s just not an area that is refined to that level yet.  For my forked &#8216;flashcards&#8217; app, I addressed some of the challenges, but left many in place.  With that as a baseline, I did, as part of my talk, give a few examples of ways to address these challenges using Geb and Spock that I&#8217;d like to share.</p>
 
@@ -329,42 +200,15 @@ class GebRemotePage extends Page {
 <p>With this &#8216;isMobile&#8217; @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.  You&#8217;ll see in my <a href="https://github.com/zachlendon/flashcards-grails/blob/master/test/functional/com/kgrodzicki/flashcard/grails/LessonsSpec.groovy">LessonsSpec</a> class that I do switch &#8216;setup&#8217; logic for my tests where I need to bootstrap some data.  With the desktop application, I can do this by uploading a file.  On a mobile web application - especially iOS - good luck uploading a file on a mobile web application.  With my &#8216;isMobile&#8217; switch, I can choose to manually &#8216;seed&#8217; an in-memory H2 database with data when on a mobile device, vs. actually uploading the data through the browser when on the desktop device.  While this creates some undesirable complexity in the code, it does allow for re-usability of the Spec class between mobile and desktop versions.  In the end, it&#8217;s the developer&#8217;s choice and the one chosen in this particular test isn&#8217;t intended to be correct for this use case or any other - it&#8217;s more intended to demonstrate capabilities.</p>
 
 <p>In the end, hopefully this sample application and the pulled out examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools, like Geb and Spock, that we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side can be challenging.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other frameworks makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).  Couple this with running these tests on mobile emulators and mobile devices (instead of simply spoofing user-agent strings to act like mobile device), and developers and test builders are created with an array of challenges.  Limiting these challenges going forward will allow us to help the clients we work for create better quality, tested desktop and mobile web applications in the years ahead.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: From Hashbangs to HTML5 PushState</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-21T22:45:00-06:00" pubdate data-updated="true">Feb 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>All kinds of <a href="http://isolani.co.uk/blog/javascript/BreakingTheWebWithHashBangs">talk lately</a> about hash-bang URLs (http://url#fragment) and how they will lead to the end of civilization (seemingly) this coming December.  I was one of the guilty parties, implementing hash-bangs in a heavy AJAX mobile application I&#8217;ve been working on, even though nearly (if not) all of the browsers the users would have would support <a href="http://dev.w3.org/html5/spec-author-view/history.html#dom-history-pushstate">HTML5 PushState</a>.  I did this being aware of the burdgeoning holy war, and had always intended to convert.  It actually fits more cleanly into the conventions of the Grails back-end for the application - i.e., http://url/fragment - and it&#8217;s HTML5, the future - plus all the other reasons those articles allude to (however opinionated or valid they might actually be).  Nevertheless, my two-staged approach was more a matter of already knowing how to do the hash-bang approach and needing to understand better the pushState approach prior to implementing it.</p>
+  <entry>
+    <title type="html"><![CDATA[Backbone.js: from Hashbangs to HTML5 PushState]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/"/>
+    <updated>2012-02-21T22:45:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate</id>
+    <content type="html"><![CDATA[<p>All kinds of <a href="http://isolani.co.uk/blog/javascript/BreakingTheWebWithHashBangs">talk lately</a> about hash-bang URLs (http://url#fragment) and how they will lead to the end of civilization (seemingly) this coming December.  I was one of the guilty parties, implementing hash-bangs in a heavy AJAX mobile application I&#8217;ve been working on, even though nearly (if not) all of the browsers the users would have would support <a href="http://dev.w3.org/html5/spec-author-view/history.html#dom-history-pushstate">HTML5 PushState</a>.  I did this being aware of the burdgeoning holy war, and had always intended to convert.  It actually fits more cleanly into the conventions of the Grails back-end for the application - i.e., http://url/fragment - and it&#8217;s HTML5, the future - plus all the other reasons those articles allude to (however opinionated or valid they might actually be).  Nevertheless, my two-staged approach was more a matter of already knowing how to do the hash-bang approach and needing to understand better the pushState approach prior to implementing it.</p>
 
 <p>Much of the mobile webapp in question is built upon <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>  (which is AWESOME) - and I find it can often take a bit of investigative work (blog/documentation/source code reading + experimentation) to figure out exactly how to do something &#8216;well&#8217;.  It&#8217;s really pretty simple to switch between a &#8216;hashbang&#8217; approach and a pushState approach with backbone.js - but it didn&#8217;t always seem that way.  First some setup then some key takeaways:</p>
 
@@ -507,42 +351,15 @@ App.Views.TodoView = Backbone.View.extend({
 <p>Other than that, you&#8217;re really set.  Regardless of implementation, the &#8220;requirement&#8221; is that the url&#8217;s you &#8220;save&#8221; should be bookmarkable - i.e., not broken at least and should presumably show the same state of the app that the user sees when the url is initially presented.  That makes them also convenient to use as the identifiers in your history, as in the end you are manipulating the browser&#8217;s &#8216;back&#8217; history state, should your user use the browser&#8217;s back button in your javascript heavy application.   And even though in practice backbone.js is most ideal in SPA (single page architecture) applications, even in those applications, being able to return to previous view states is often a requirement.  One trick in restoring these &#8216;states&#8217; is often the models you need to re-render those states are in the backbone collections you already have locally, so you may just be able to grab the right models (based on one or more identifiers in the url) and re-render the view.  There&#8217;s also the option that you&#8217;ve chosen to cache an HTML5 page in the DOM and can simply transition to that page in your UI upon navigating to particular points in your Backbone.js history.</p>
 
 <p>So while this code hopefully helps provide some examples for the UI prospective, don&#8217;t forget the back-end piece of ensuring that the url&#8217;s you are saving can be returned to and provide valid results.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/17/up-and-blogging-with-mao/">Up and Blogging With Octopress, Mao and GitHub Pages</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-17T00:34:00-06:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been meaning to get back into blogging for a while.  Blogging seems like the 2006 thing to do, right?  Nevertheless, I really enjoy the technologies I get to work with on an almost daily basis - namely iOS, Grails and various mobile frameworks (JQuery Mobile, Backbone.js, underscore.js, etc.), and hopefully I run across a few things that might be of use to some other people.  At least I&#8217;d like to use this blog to help give an outlet to that illusion.  Having a blog also lets me rant about things and have it stored online for an indeterminate amount of time - who doesn&#8217;t like having their words haunt them for years on end?</p>
+  <entry>
+    <title type="html"><![CDATA[Up and Blogging with Octopress, Mao and GitHub Pages]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao/"/>
+    <updated>2012-02-17T00:34:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/02/17/up-and-blogging-with-mao</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been meaning to get back into blogging for a while.  Blogging seems like the 2006 thing to do, right?  Nevertheless, I really enjoy the technologies I get to work with on an almost daily basis - namely iOS, Grails and various mobile frameworks (JQuery Mobile, Backbone.js, underscore.js, etc.), and hopefully I run across a few things that might be of use to some other people.  At least I&#8217;d like to use this blog to help give an outlet to that illusion.  Having a blog also lets me rant about things and have it stored online for an indeterminate amount of time - who doesn&#8217;t like having their words haunt them for years on end?</p>
 
 <p>So with all that being said, I&#8217;ve had a long list of weak excuses why I hadn&#8217;t gotten a blog going, and high on the list was pretty things like</p>
 
@@ -566,85 +383,7 @@ App.Views.TodoView = Backbone.View.extend({
 
 
 <p>If anyone has tips to make the use of these technologies even better going forward please pass them along.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/11/12/log4javascript-local-storage-custom-appender/">Log4Javascript - Quick Intro and a LocalStorage Custom Appender</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the fine line of investment</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/">Improving Mobile Capabilities of Geb Pages and Spock Specifications</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: from Hashbangs to HTML5 PushState</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/17/up-and-blogging-with-mao/">Up and Blogging with Octopress, Mao and GitHub Pages</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Your Name -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
