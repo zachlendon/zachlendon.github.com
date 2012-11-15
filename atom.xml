@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-11-12T23:31:10-06:00</updated>
+  <updated>2012-11-14T23:30:58-06:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[4 End User Advantages of HTML5 Apps for Mobile Devices]]></title>
+    <link href="http://zachlendon.github.com/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices/"/>
+    <updated>2012-11-14T22:45:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices</id>
+    <content type="html"><![CDATA[<p>Rarely a week goes by where there is not another article about &#8220;HTML5 Mobile Webapps vs. Native Apps.&#8221;  Like criticizing Apple, these articles are great at generating traffic (and money?) for the hosting website but often settle little and rarely provide much value for either audience.  That being said, seemingly everyone has an opinion on these topics, so don&#8217;t expect the articles to end anytime soon. Before I take a stand on one side of the aisle - in order to rebutt points in a specific article I&#8217;ll mention shortly, I should preface this post by saying that I hate the &#8216;vs.&#8217; argument of mobile apps - I believe they both have their time and place, and for enterprise customers I often think &#8220;both&#8221; is the correct answer.  With that out of the way - the latest in the line of these &#8216;vs.&#8217;-style articles that was brought to my attention today was Jeffrey Sambells post on <a href="http://jeffreysambells.com/2012/11/14/on-building-html5-apps-for-mobile-devices">&#8220;On Building HTML5 Apps for Mobile Devices&#8221;</a>.  While discussing the article point by point is <em>very tempting</em> - such as the incorrect summarization of Facebook&#8217;s current stance on HTML5 (they still get much more non-native mobile traffic than native, and HTML5 is still very much in play at Facebook) - the point in the article I want to address is:</p>
+
+<ul>
+<li>Where’s the end user advantages (for mobile web)?</li>
+</ul>
+
+
+<p>Well here they are - for starters, here are 4 &#8220;end user advantages&#8221; for mobile web applications:</p>
+
+<ol>
+<li>Mobile browsers crash less frequently than your native app.  Users get pretty annoyed when apps crash.</li>
+<li>Not everyone wants to download an app.  ~30% of mobile users have <em>never</em> downloaded <em>any</em> app.  If they don&#8217;t want to download your app, but want to use your product on their mobile device, having a mobile web app <em>is</em> your other option.</li>
+<li>Some native applications will not work on your device. - or don&#8217;t exist for your device.  If you are using an older iOS version, or certain Android devices/OS&#8217;s (for example) - or are part of the <a href="https://twitter.com/search?q=%23wearethe3percent">#wearethe3percent Window Phone</a> crowd or 1 of the 30 people still using Blackberry devices, then mobile web apps are your only option to reach these users.</li>
+<li>Some use cases are better suited for mobile web applications.  This Mashable article <a href="http://mashable.com/2012/06/06/mobile-site-mobile-app-infographic/">under the Content Usage section</a> does a decent job of summarizing such use cases.  Additionally, people who are travelling, especially in slower bandwith areas, will often be able to more quickly access the information this type of information via a mobile web app.</li>
+</ol>
+
+
+<p>There are definitely points in Jeremy&#8217;s article that I very much agree with - including the mythical fallacy: &#8220;I can just generate a native app from my mobile webapp using product X and it&#8217;ll be great!&#8221;  In the end, mobile and native aren&#8217;t going away anytime soon, and there are very strong arguments behind, and reasons for, leveraging each approach as part of an overall mobile strategy.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Log4Javascript - Quick Intro and a LocalStorage Custom Appender]]></title>
