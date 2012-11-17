@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2012-11-17T00:07:03-06:00</updated>
+  <updated>2012-11-17T00:08:08-06:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Using Tincr with Grails for Live Reloading]]></title>
+    <title type="html"><![CDATA[Using Tincr with Grails for Live Client-Side Reloading]]></title>
     <link href="http://zachlendon.github.com/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/"/>
     <updated>2012-11-16T23:32:00-06:00</updated>
     <id>http://zachlendon.github.com/blog/2012/11/16/using-tincr-with-grails-for-live-reloading</id>
