@@ -9,7 +9,7 @@
   <meta name="author" content="Zach Lendon">
 
   
-  <meta name="description" content="My first job out of college was working on OfficeMax.com (for OfficeMax) in 1999, where I primarily wrote a combination of client-side code and &hellip;">
+  <meta name="description" content="Both Testacular - recently renamed &#8216;Karma&#8217; and Testem are great test runners for improving your javascript unit testing workflow. While &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-26T00:25:00-05:00" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Both <a href="http://karma-runner.github.com/0.8/index.html">Testacular</a> - recently renamed &#8216;Karma&#8217; and <a href="https://github.com/airportyh/testem">Testem</a> are great test runners for improving your javascript unit testing workflow.  While Karma was developed as part of AngularJS, it is certainly useful as a test runner for javascript unit tests regardless of frameworks and/or libraries leveraged.  Key features that both Testem and Karma have include:</p>
+
+<ul>
+<li>Support for running/driving multiple browsers simultaneously, including headless browsers (i.e., PhantomJS)</li>
+<li>Support for the main testing libraries out there - QUnit, Jasmine, Mocha, etc.</li>
+<li>Both will watch the source/test files (that you selectively configure) for changes and automatically re-run tests</li>
+<li>Both provide support for local and CI use</li>
+<li>Both are terminal focused</li>
+</ul>
+
+
+<p>For me I have found that I have a slight preference for Testem, for a few reasons.  One is the Text User Interface:</p>
+
+<p><img src="/images/green.png"></p>
+
+<p>which allows you to better visually see the test results by browsers, whereas Testacular provides this as straight output text lines:</p>
+
+<p><img src="/images/output.png"></p>
+
+<p>Secondly, the ability to also run tests from a browser is a nice alternative when the terminal is not providing you as much flexibility as you want in certain testing scenarios and development workflows.  Configuring this option alongside testem is much more doable than alongside Karma.  The minimal configuration that is required is described in the &#8216;Node Travelers&#8217; Toolchain blogpost (in the <a href="http://blog.nodetraveller.com/Javascript/My-javascript-testing-toolchain.html">icing on the cake section</a>).  As is the case in the terminal, the main benefit over a normal Jasmine/browser TDD workflow is that with this testem integration we get watching of changes and automatic reload of the browser on changes. As a small aside, I&#8217;ve always found the <a href="https://github.com/esbie/jasmine-bootstrap">Jasmine Bootstrap Reporter</a> to be a great reporter for browser Jasmine reports -</p>
+
+<p><img src="/images/jasmineHtml.png"></p>
+
+<ul>
+<li>significantly better than the default Jasmine Html reporters.  Do note that when using testem with Jasmine that you may have to slightly modify your Jasmine javascript source to ensure that the #testem hashtag is honored when choosing to run a suite of tests or individual tests from the browser.</li>
+</ul>
+
+
+<p>On the Karma side, I must admit that Karma does seem to have nice debugging integration into Webstorm IDE, an IDE that I&#8217;ve tried but never really used extensively.  I also know Sublime Text 2 has <a href="http://sokolovstas.github.com/SublimeWebInspector/">similar javascript debugging support available of late</a>, so it&#8217;s possible that Karma&#8217;s debugging support is stronger than Testem and that leveraging it in an ongoing basis would prove its value.  You&#8217;ll note in the Karma documentation &#8220;video&#8221; that support for &#8220;dumping&#8221; object state, console logging to the terminal, etc. provides a pretty strong workflow from Karma for those who want their javascript development TDD workflow view to look like a Sublime Text editor on one side of the screen and a terminal window on the other.  This editor/terminal workflow is philosophically inline with what Testem is aiming for as well though, so I&#8217;m not sure you&#8217;re really losing this if your workflow fits one IDE/coding/execution paradigm vs. any other.</p>
+
+<p>Ultimately both Karma and Testem will work for your javascript unit testing workflows and they are better than the alternative - no javascript unit tests and/or no javascript unit test runner.  I have found evidence that helps confirm my impression that Testem seems to have been around longer as a project (and thus be a bit more mature), have a bit better documentation, and be more widely used.  I&#8217;d also be remiss not to say that I have also found it mildly annoying that Google Search Result links to &#8220;Testacular&#8221; Google Groups posts are &#8220;dead ends&#8221;, as the group has been renamed.  When there is ultimately such a small difference between a set of frameworks and/or libraries, it is to me these little things that can add up and - for now - would make me lean towards and recommend Testem to others.  That being said, hopefully we&#8217;ll continue to see innovation from both of these tools and therefore hopefully the story on their usefulness and viability is only in the early stages.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -752,6 +818,10 @@ App.Views.TodoView = Backbone.View.extend({
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/15/give-in-to-javascript/">Embrace your Javascript Overlords</a>
       </li>
     
@@ -765,10 +835,6 @@ App.Views.TodoView = Backbone.View.extend({
     
       <li class="post">
         <a href="/blog/2012/11/12/log4javascript-local-storage-custom-appender/">Log4Javascript - Quick Intro and a LocalStorage Custom Appender</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the fine line of investment</a>
       </li>
     
   </ul>

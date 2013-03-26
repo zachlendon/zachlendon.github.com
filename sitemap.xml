@@ -45,11 +45,17 @@
         <lastmod>2013-01-15T23:45:14-06:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://zachlendon.github.com/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/
+        </loc>
+        <lastmod>2013-03-26T01:21:34-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://zachlendon.github.com/blog/archives/</loc>
-        <lastmod>2013-01-15T23:45:14-06:00</lastmod>
+        <lastmod>2013-03-26T01:21:34-05:00</lastmod>
     </url>
     <url>
         <loc>http://zachlendon.github.com/</loc>
-        <lastmod>2013-01-15T23:45:14-06:00</lastmod>
+        <lastmod>2013-03-26T01:21:34-05:00</lastmod>
     </url>
 </urlset>
