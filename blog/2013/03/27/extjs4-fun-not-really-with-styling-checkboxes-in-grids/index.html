@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ExtJS4: Fun (not really) with styling checkboxes in grids - Zach Lendon's Blog</title>
+  <meta name="author" content="Zach Lendon">
+
+  
+  <meta name="description" content="&#8216;boxready&#8217; is a good event to listen to to change checkbox CSS styles programmatically when using CheckboxModels in an extJS4 panel where &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zachlendon.github.com/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Zach Lendon's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zach Lendon's Blog</a></h1>
+  
+    <h2>Mobile, iOS, Grails and more</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zachlendon.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ExtJS4: Fun (Not Really) With Styling Checkboxes in Grids</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T23:57:00-05:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.sencha.com/blog/optimizing-ext-js-4-1-based-applications">&#8216;boxready&#8217;</a> is a good event to listen to to change checkbox CSS styles programmatically when using <a href="http://docs.sencha.com/ext-js/4-1/#!/api/Ext.selection.CheckboxModel">CheckboxModels</a> in an extJS4 panel where the &#8216;grid&#8217; is defined as an &#8216;item&#8217; in a panel.  When you are defining an actual &#8216;grid&#8217; component though (i.e., when you are doing more than simply tying an extJS &#8216;store&#8217; to a standard grid component via an item) and want to change checkboxes within a grid listener, you&#8217;ll want to use the &#8216;viewready&#8217; event instead.  All of these events are shown <a href="http://docs.sencha.com/ext-js/4-1/source/AbstractView.html#Ext-view-AbstractView">AbstractView&#8217;s source</a>, and when using extJS4+ it&#8217;s worthwhile to understand all that goes on in this class, especially event wise.</p>
+
+<p>The reason one needs to do this styling logic within these events is that the style changes must be applied after everything in your component is visible and any styles are calculated and applied to elements within that component.  While you would think you could do these style settings when you instantiate the CheckboxModel and have them honored, and  there are random illusions to this online - you will find that it will fail you under certain scenarios.  As an example, &#8216;headerConfig&#8217; in CheckboxModel has a headerWidth property.  Howevever, if you look at <a href="https://code.google.com/p/extjs4/source/browse/trunk/ext4/extjs/src/selection/CheckboxModel.js?r=3">CheckboxModel&#8217;s source</a>, setting the config does not appear to actually change it&#8217;s value (and in practice this is what I&#8217;ve seen).  In certain grid scenarios, depending especially on the &#8216;flex&#8217; property of other columns, you may (ok - will) find ExtJS4+ re-sizing your checkbox columns to excessive sizes - usually on the big end, but potentially too small based on your requirements.</p>
+
+<p>While it is possible and in practice probably better &#8216;code quality&#8217; to actually get the grid or panel component (using Ext.getCmp() - by id) and then access the CheckboxModel using a ComponentQuery selector - and then change it&#8217;s width, another example is to do it in a more JQuery like fashion (in Sencha syntax of course).  This is particularly safe if you don&#8217;t have lots of elements on a page such that the querying performance will impact your app.  With a pretty complex app I&#8217;ve not seen the below queries suffer performance-wise:</p>
+
+<div><script src='https://gist.github.com/5260802.js?file='></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>The above code would change the checkboxes in the first row of a grid - the first item finding the styled header checkbox (so you can select all rows) and the second loop finding all rows and grabbing the first element from that row.  Yes, you don&#8217;t need the &#8216;each&#8217; necessarily in the first scenario, but it doesn&#8217;t hurt anything either.</p>
+
+<p>While extJS4 and Sencha Touch continue to prove to be very powerful frameworks, understanding their nuances and pain points continues to be an interesting journey to be embarking upon.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zach Lendon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T23:57:00-05:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zachlendon.github.com/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/" data-via="" data-counturl="http://zachlendon.github.com/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/" title="Previous Post: Thoughts on Testem vs Testacular (Karma)">&laquo; Thoughts on Testem vs Testacular (Karma)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/">ExtJS4: Fun (not really) with styling checkboxes in grids</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/15/give-in-to-javascript/">Embrace your Javascript Overlords</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr with Grails for Live Client-Side Reloading</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices/">Four End User Advantages of HTML5 Apps for Mobile Devices</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Zach Lendon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

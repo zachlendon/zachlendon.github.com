@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2013-03-26T01:30:37-05:00</updated>
+  <updated>2013-03-28T00:15:43-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ExtJS4: Fun (not really) with styling checkboxes in grids]]></title>
+    <link href="http://zachlendon.github.com/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/"/>
+    <updated>2013-03-27T23:57:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids</id>
+    <content type="html"><![CDATA[<p><a href="http://www.sencha.com/blog/optimizing-ext-js-4-1-based-applications">&#8216;boxready&#8217;</a> is a good event to listen to to change checkbox CSS styles programmatically when using <a href="http://docs.sencha.com/ext-js/4-1/#!/api/Ext.selection.CheckboxModel">CheckboxModels</a> in an extJS4 panel where the &#8216;grid&#8217; is defined as an &#8216;item&#8217; in a panel.  When you are defining an actual &#8216;grid&#8217; component though (i.e., when you are doing more than simply tying an extJS &#8216;store&#8217; to a standard grid component via an item) and want to change checkboxes within a grid listener, you&#8217;ll want to use the &#8216;viewready&#8217; event instead.  All of these events are shown <a href="http://docs.sencha.com/ext-js/4-1/source/AbstractView.html#Ext-view-AbstractView">AbstractView&#8217;s source</a>, and when using extJS4+ it&#8217;s worthwhile to understand all that goes on in this class, especially event wise.</p>
+
+<p>The reason one needs to do this styling logic within these events is that the style changes must be applied after everything in your component is visible and any styles are calculated and applied to elements within that component.  While you would think you could do these style settings when you instantiate the CheckboxModel and have them honored, and  there are random illusions to this online - you will find that it will fail you under certain scenarios.  As an example, &#8216;headerConfig&#8217; in CheckboxModel has a headerWidth property.  Howevever, if you look at <a href="https://code.google.com/p/extjs4/source/browse/trunk/ext4/extjs/src/selection/CheckboxModel.js?r=3">CheckboxModel&#8217;s source</a>, setting the config does not appear to actually change it&#8217;s value (and in practice this is what I&#8217;ve seen).  In certain grid scenarios, depending especially on the &#8216;flex&#8217; property of other columns, you may (ok - will) find ExtJS4+ re-sizing your checkbox columns to excessive sizes - usually on the big end, but potentially too small based on your requirements.</p>
+
+<p>While it is possible and in practice probably better &#8216;code quality&#8217; to actually get the grid or panel component (using Ext.getCmp() - by id) and then access the CheckboxModel using a ComponentQuery selector - and then change it&#8217;s width, another example is to do it in a more JQuery like fashion (in Sencha syntax of course).  This is particularly safe if you don&#8217;t have lots of elements on a page such that the querying performance will impact your app.  With a pretty complex app I&#8217;ve not seen the below queries suffer performance-wise:</p>
+
+<div><script src='https://gist.github.com/5260802.js?file='></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>The above code would change the checkboxes in the first row of a grid - the first item finding the styled header checkbox (so you can select all rows) and the second loop finding all rows and grabbing the first element from that row.  Yes, you don&#8217;t need the &#8216;each&#8217; necessarily in the first scenario, but it doesn&#8217;t hurt anything either.</p>
+
+<p>While extJS4 and Sencha Touch continue to prove to be very powerful frameworks, understanding their nuances and pain points continues to be an interesting journey to be embarking upon.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Thoughts on Testem vs Testacular (Karma)]]></title>
