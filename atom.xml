@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2013-03-28T08:35:22-05:00</updated>
+  <updated>2013-04-02T14:27:42-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Updated ExtJs4 Mock Ajax Library for Jasmine]]></title>
+    <link href="http://zachlendon.github.com/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/"/>
+    <updated>2013-04-02T14:17:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine</id>
+    <content type="html"><![CDATA[<p><a href="https://twitter.com/kenspirit">@kenspirit</a> does a nice job in this series (<a href="http://www.thinkingincrowd.me/blog/2012/08/13/extjs-jasmine-unit-test-part-1-philosophy-and-test-for-store/">part 1</a> and <a href="http://www.thinkingincrowd.me/blog/2012/08/30/extjs-jasmine-unit-test-part-2-ajax-behavior-2/">part 2</a>) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit testing ExtJS applications.  While <a href="https://twitter.com/kenspirit">@kenspirit</a> provides a nice adaptation of <a href="https://github.com/pivotal/jasmine-ajax">jasmine-ajax</a> for ExtJs (as jasmine-ajax only supports JQuery and Prototype currently), that adaptation does not work with ExtJS4.  The following <a href="https://gist.github.com/zachlendon/5295365">updated version should work - at least for basic Ajax mocking</a>.  Let me know if you have issues and I can (futher) update and improve upon this latest adaptation.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ExtJS4: Fun (not really) with styling checkboxes in grids]]></title>

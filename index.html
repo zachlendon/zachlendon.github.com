@@ -9,7 +9,7 @@
   <meta name="author" content="Zach Lendon">
 
   
-  <meta name="description" content="&#8216;boxready&#8217; is a good event to listen to to change checkbox CSS styles programmatically when using CheckboxModels in an extJS4 panel where &hellip;">
+  <meta name="description" content="@kenspirit does a nice job in this series (part 1 and part 2) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T14:17:00-05:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://twitter.com/kenspirit">@kenspirit</a> does a nice job in this series (<a href="http://www.thinkingincrowd.me/blog/2012/08/13/extjs-jasmine-unit-test-part-1-philosophy-and-test-for-store/">part 1</a> and <a href="http://www.thinkingincrowd.me/blog/2012/08/30/extjs-jasmine-unit-test-part-2-ajax-behavior-2/">part 2</a>) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit testing ExtJS applications.  While <a href="https://twitter.com/kenspirit">@kenspirit</a> provides a nice adaptation of <a href="https://github.com/pivotal/jasmine-ajax">jasmine-ajax</a> for ExtJs (as jasmine-ajax only supports JQuery and Prototype currently), that adaptation does not work with ExtJS4.  The following <a href="https://gist.github.com/zachlendon/5295365">updated version should work - at least for basic Ajax mocking</a>.  Let me know if you have issues and I can (futher) update and improve upon this latest adaptation.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -791,66 +827,9 @@ App.Views.TodoView = Backbone.View.extend({
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/17/up-and-blogging-with-mao/">Up and Blogging With Octopress, Mao and GitHub Pages</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-17T00:34:00-06:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been meaning to get back into blogging for a while.  Blogging seems like the 2006 thing to do, right?  Nevertheless, I really enjoy the technologies I get to work with on an almost daily basis - namely iOS, Grails and various mobile frameworks (JQuery Mobile, Backbone.js, underscore.js, etc.), and hopefully I run across a few things that might be of use to some other people.  At least I&#8217;d like to use this blog to help give an outlet to that illusion.  Having a blog also lets me rant about things and have it stored online for an indeterminate amount of time - who doesn&#8217;t like having their words haunt them for years on end?</p>
-
-<p>So with all that being said, I&#8217;ve had a long list of weak excuses why I hadn&#8217;t gotten a blog going, and high on the list was pretty things like</p>
-
-<ul>
-<li>Need to figure out where to host it</li>
-<li>Need to figure out what software to use</li>
-<li>Need to figure out what styling to use</li>
-</ul>
-
-
-<p>Well I&#8217;ve read enough to determine that <a href="http://octopress.org">Octopress</a> is the developer&#8217;s <a href="http://wordpress.org">Wordpress</a> (I probably first noted it being used on Matt Gemmell&#8217;s blog, and his post <a href="http://mattgemmell.com/2011/09/12/blogging-with-octopress/">his experiences blogging with Octopress</a>). I also determined <a href="http://github.com">GitHub</a> is as good of a place as any to host one, for starters at least - and works well with Git-hosted <a href="http://octopress.org">Octopress</a>.  <a href="http://octopress.org">Octopress&#8217;s</a> default theme (which this blog uses) provides good enough styling for a developer-centric blog in my opinion - for the time being at least.</p>
-
-<p>For now I&#8217;m using <a href="http://mouapp.com">Mouapp</a> for my Markdown editor - recommended by <a href="http://zanthrash.com/">@zanthrash</a> - while I thought I liked the idea of <a href="http://danimal.org/blog/2011/07/31/posting-to-octopress-from-marsedit/">posting to Octopress from MarsEdit</a>, I actually like the raw markdown editing better and being able to see the markup in the same window, vs. building html formatted posts.  Plus it isn&#8217;t that hard to create a new post in Mao, save it to my local blog posts folder, and do a rake generate and deploy - and have it pushed to my github pages repo see it live online - immediately.  I&#8217;m sure this will be a process that will scriptable to make it even easier to do with future posts.</p>
-
-<p>A couple things I did note during the process - which probably are obvious to many but weren&#8217;t initially to me</p>
-
-<ul>
-<li>To ensure that individual blog pages get generated properly you must have the markdown section rake&#8217;s new_post command generates at the top of your markdown file</li>
-<li>Strings should be in quotes in your Octopress _config.yml file, or you&#8217;ll likely get parse errors</li>
-</ul>
-
-
-<p>If anyone has tips to make the use of these technologies even better going forward please pass them along.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -861,6 +840,10 @@ App.Views.TodoView = Backbone.View.extend({
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/">ExtJS4: Fun (not really) with styling checkboxes in grids</a>
@@ -876,10 +859,6 @@ App.Views.TodoView = Backbone.View.extend({
     
       <li class="post">
         <a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr with Grails for Live Client-Side Reloading</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices/">Four End User Advantages of HTML5 Apps for Mobile Devices</a>
       </li>
     
   </ul>
