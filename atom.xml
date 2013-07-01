@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2013-04-02T14:27:42-05:00</updated>
+  <updated>2013-07-01T10:30:01-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A Sencha Dirty Store Records Quirk]]></title>
+    <link href="http://zachlendon.github.com/blog/2013/07/01/a-sencha-dirty-store-records-quirk/"/>
+    <updated>2013-07-01T10:07:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2013/07/01/a-sencha-dirty-store-records-quirk</id>
+    <content type="html"><![CDATA[<p>Sencha provides some pretty slick out of the box grid capabilities, one of which, editing, is demonstrated in the ExtJS 4 example <a href="http://dev.sencha.com/deploy/ext-4.0.1/examples/grid/cell-editing.html">shown here</a>.</p>
+
+<p>One example of how Sencha does a great job making the easy hard and the difficult easy (just an opinion I&#8217;ve fashioned over the past several months) is the handling of editing empty cell values.  For one of the apps I work on, I read XML (yes, awesome I know) from a web service data using <a href="http://groovy.codehaus.org/modules/http-builder/">Groovy&#8217;s HTTPBuilder</a>, which under the covers uses <a href="http://groovy.codehaus.org/api/groovy/util/XmlSlurper.html">XmlSlurper</a> to parse said data.  When the data is empty, it is by default parsed and represented as &#8220;&#8221;.  When you edit a field in the Sencha grid however, it gets changed to be represented as null.  This therefore marks a record as modified in the Sencha store, when it really hasn&#8217;t been.  Probably the proper approach to deal with this is to write logic in the Sencha <a href="http://docs.sencha.com/extjs/4.1.3/#!/api/Ext.data.Store-event-update">store update event</a> to check modified records for this &#8220;&#8221;/null shenanigans and not allow the update on the modified record to occur.  Once you start making modifications like this for several store objects you&#8217;ll probably find it best just to get your OOP on and create your own Store object that extends Sencha&#8217;s with goodies like this.</p>
+
+<p>Ultimately Sencha should in my opinion not mark these records as modified for you.  But it is just another example how Sencha is great at doing heavy lifting but leaves lots of little pieces around for you to deal with - many which you probably shouldn&#8217;t have to.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Updated ExtJs4 Mock Ajax Library for Jasmine]]></title>

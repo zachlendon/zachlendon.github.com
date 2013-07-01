@@ -63,11 +63,17 @@
         <lastmod>2013-04-02T14:27:19-05:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://zachlendon.github.com/blog/2013/07/01/a-sencha-dirty-store-records-quirk/
+        </loc>
+        <lastmod>2013-07-01T10:28:53-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://zachlendon.github.com/blog/archives/</loc>
-        <lastmod>2013-04-02T14:27:19-05:00</lastmod>
+        <lastmod>2013-07-01T10:28:53-05:00</lastmod>
     </url>
     <url>
         <loc>http://zachlendon.github.com/</loc>
-        <lastmod>2013-04-02T14:27:19-05:00</lastmod>
+        <lastmod>2013-07-01T10:28:53-05:00</lastmod>
     </url>
 </urlset>

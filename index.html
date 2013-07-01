@@ -9,7 +9,7 @@
   <meta name="author" content="Zach Lendon">
 
   
-  <meta name="description" content="@kenspirit does a nice job in this series (part 1 and part 2) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit &hellip;">
+  <meta name="description" content="Sencha provides some pretty slick out of the box grid capabilities, one of which, editing, is demonstrated in the ExtJS 4 example shown here. One &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,46 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/01/a-sencha-dirty-store-records-quirk/">A Sencha Dirty Store Records Quirk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-01T10:07:00-05:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sencha provides some pretty slick out of the box grid capabilities, one of which, editing, is demonstrated in the ExtJS 4 example <a href="http://dev.sencha.com/deploy/ext-4.0.1/examples/grid/cell-editing.html">shown here</a>.</p>
+
+<p>One example of how Sencha does a great job making the easy hard and the difficult easy (just an opinion I&#8217;ve fashioned over the past several months) is the handling of editing empty cell values.  For one of the apps I work on, I read XML (yes, awesome I know) from a web service data using <a href="http://groovy.codehaus.org/modules/http-builder/">Groovy&#8217;s HTTPBuilder</a>, which under the covers uses <a href="http://groovy.codehaus.org/api/groovy/util/XmlSlurper.html">XmlSlurper</a> to parse said data.  When the data is empty, it is by default parsed and represented as &#8220;&#8221;.  When you edit a field in the Sencha grid however, it gets changed to be represented as null.  This therefore marks a record as modified in the Sencha store, when it really hasn&#8217;t been.  Probably the proper approach to deal with this is to write logic in the Sencha <a href="http://docs.sencha.com/extjs/4.1.3/#!/api/Ext.data.Store-event-update">store update event</a> to check modified records for this &#8220;&#8221;/null shenanigans and not allow the update on the modified record to occur.  Once you start making modifications like this for several store objects you&#8217;ll probably find it best just to get your OOP on and create your own Store object that extends Sencha&#8217;s with goodies like this.</p>
+
+<p>Ultimately Sencha should in my opinion not mark these records as modified for you.  But it is just another example how Sencha is great at doing heavy lifting but leaves lots of little pieces around for you to deal with - many which you probably shouldn&#8217;t have to.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -649,184 +689,6 @@ class GebRemotePage extends Page {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: From Hashbangs to HTML5 PushState</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-21T22:45:00-06:00" pubdate data-updated="true">Feb 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>All kinds of <a href="http://isolani.co.uk/blog/javascript/BreakingTheWebWithHashBangs">talk lately</a> about hash-bang URLs (http://url#fragment) and how they will lead to the end of civilization (seemingly) this coming December.  I was one of the guilty parties, implementing hash-bangs in a heavy AJAX mobile application I&#8217;ve been working on, even though nearly (if not) all of the browsers the users would have would support <a href="http://dev.w3.org/html5/spec-author-view/history.html#dom-history-pushstate">HTML5 PushState</a>.  I did this being aware of the burdgeoning holy war, and had always intended to convert.  It actually fits more cleanly into the conventions of the Grails back-end for the application - i.e., http://url/fragment - and it&#8217;s HTML5, the future - plus all the other reasons those articles allude to (however opinionated or valid they might actually be).  Nevertheless, my two-staged approach was more a matter of already knowing how to do the hash-bang approach and needing to understand better the pushState approach prior to implementing it.</p>
-
-<p>Much of the mobile webapp in question is built upon <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>  (which is AWESOME) - and I find it can often take a bit of investigative work (blog/documentation/source code reading + experimentation) to figure out exactly how to do something &#8216;well&#8217;.  It&#8217;s really pretty simple to switch between a &#8216;hashbang&#8217; approach and a pushState approach with backbone.js - but it didn&#8217;t always seem that way.  First some setup then some key takeaways:</p>
-
-<p>Typically at some point in your backbone.js MVC workflow you are updating the state of your models and/or collections on the front-end through communicating with the server.  As a result, backbone.js will fire a corresponding add, remove or reset event, which you as the event-informed developer will hook into and bind your own JS function(s) against.  If you wish to update the browser url - such that it is bookmarkable and works as a state in your browser&#8217;s history - you&#8217;ll typically do this here.</p>
-
-<p>So there&#8217;s your background.  Now let&#8217;s look at the two scaled down versions of common backbone.js use cases and discuss the subtle different of approach - first hashbang:</p>
-
-<div><script src='https://gist.github.com/1881657.js?file='></script>
-<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
- $.mobile.pushStateEnabled = false;
-
-new App.Routers.TodosRouter();
-Backbone.history = Backbone.history || new Backbone.History({});
-Backbone.history.start();
-
-//Backbone Router
-App.Routers.TodosRouter = Backbone.Router.extend({
-
-    routes: {
-        &quot;:toDoId&quot;:        &quot;loadTodo&quot;
-    },
-
-    initialize: function() {
-        this.todos = new App.Collections.Todos();
-        this.todoView = new App.Views.TodoView({collection: this.todos});
-        this.todos.fetch();
-    },
-
-    loadTodo: function(toDoId) {
-     //hear you have your id and your todos collection
-     //you would use underscore and/or backbone collection functionality to get
-     //the model object (represented by model below) you want
-     ...
-     this.todoView.setModelAndRender(model);
-    }
-
-// The View
-App.Views.TodoView = Backbone.View.extend({
-
-    el:'.content',
-
-    events: {
-    },
-
-    initialize:function () {
-        this.collection.bind('reset', this.navigateToTodo, this);
-        this.collection.bind('add', this.navigateToTodo, this);
-    },
-
-    navigateToTodo () {
-        Backbone.history.navigate('#' + this.model.toJSON().id);
-        return this;
-    },
-
-    setModelAndRender: function(model) {
-        this.model = model;
-        this.render();
-        return this;
-    },
-
-    render:function () {
-    }
-}
-</code></pre></noscript></div>
-
-
-<p>then HTML5 pushState:</p>
-
-<div><script src='https://gist.github.com/1881650.js?file='></script>
-<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
- $.mobile.pushStateEnabled = false;
-
-new App.Routers.TodosRouter();
-Backbone.history = Backbone.history || new Backbone.History({});
-Backbone.history.start({pushState:true});
-
-//Backbone Router
-App.Routers.TodosRouter = Backbone.Router.extend({
-
-    routes: {
-        &quot;/contextPath/:toDoId&quot;:        &quot;loadTodo&quot;
-    },
-
-    initialize: function() {
-        this.todos = new App.Collections.Todos();
-        this.todoView = new App.Views.TodoView({collection: this.todos});
-        this.todos.fetch();
-    },
-
-    loadTodo: function(toDoId) {
-     //hear you have your id and your todos collection
-     //you would use underscore and/or backbone collection functionality to get
-     //the model object (represented by model below) you want
-     ...
-     this.todoView.setModelAndRender(model);
-    }
-
-// The View
-App.Views.TodoView = Backbone.View.extend({
-
-    el:'.content',
-
-    events: {
-    },
-
-    initialize:function () {
-        this.collection.bind('reset', this.navigateToTodo, this);
-        this.collection.bind('add', this.navigateToTodo, this);
-    },
-
-    navigateToTodo () {
-        Backbone.history.navigate('/todos/' + this.model.toJSON().id, {trigger: true});
-        return this;
-    },
-
-    setModelAndRender: function(model) {
-        this.model = model;
-        this.render();
-        return this;
-    },
-
-    render:function () {
-    }
-}
-</code></pre></noscript></div>
-
-
-<p>They look pretty similar.  Note that with the pushState version we have a $.mobile.pushStateEnabled = false;.  That&#8217;s so if our project has JQuery Mobile that it plays nicely.  There&#8217;s the whole {pushState:true} option declaration when starting the backbone history, but that&#8217;s pretty evident/expected.  Notice with the router that the pushState version has the /contextPath before the :toDoId while the hashbang version just has the :toDoId.  Backbone&#8217;s history functionality has the concept of a &#8216;root&#8217; url - where presumably one could set the contextPath and all url&#8217;s in your backbone implementation would be based off of that, but I found in practice that my url&#8217;s at best weren&#8217;t consistent on when they did or didn&#8217;t use that root definition.  So I&#8217;d almost recommend seeing if a root url works for you (especially if you have no contextPath) but having this as your fallback. I almost found it clearer to define the full context path where needed - as opposed to having a root path used in Backbone history - and ensuring it would work there - and then leveraging a context path elsewhere - vs. just being explicit across the few areas where url&#8217;s exist in one&#8217;s backbone app.  Nevertheless, I could imagine this &#8216;base root context path&#8217; being configured as a global variable (or in general be configurable) for some apps where the contextPath could change based on environment (helping bring consistency to your url syntax across your backbone.js layer), but for my use case I haven&#8217;t crossed that bridge yet.</p>
-
-<p>Back on topic, note the:</p>
-
-<p>Backbone.history.navigate(&#8216;#&#8217; + this.model.toJSON().id);</p>
-
-<p>vs.</p>
-
-<p>Backbone.history.navigate(&#8216;/todos/&#8217; + this.model.toJSON().id, {trigger: true});</p>
-
-<p>This in general seems pretty sensible, but the trigger scenario is significant here (and is noted in the backbone docs) - so that my loadTodo router method gets called.  With the hashbang approach, the hashchange event was just being picked up and the router method was getting called by backbone.  I believe there&#8217;s something I could be doing where the router function in question could automatically be called in both scenarios - but it&#8217;s good to know that if the router method isn&#8217;t getting called that this option is the cure.  It&#8217;s much more elegant at least than the manual calls to the router method that you see in some online examples.</p>
-
-<p>Other than that, you&#8217;re really set.  Regardless of implementation, the &#8220;requirement&#8221; is that the url&#8217;s you &#8220;save&#8221; should be bookmarkable - i.e., not broken at least and should presumably show the same state of the app that the user sees when the url is initially presented.  That makes them also convenient to use as the identifiers in your history, as in the end you are manipulating the browser&#8217;s &#8216;back&#8217; history state, should your user use the browser&#8217;s back button in your javascript heavy application.   And even though in practice backbone.js is most ideal in SPA (single page architecture) applications, even in those applications, being able to return to previous view states is often a requirement.  One trick in restoring these &#8216;states&#8217; is often the models you need to re-render those states are in the backbone collections you already have locally, so you may just be able to grab the right models (based on one or more identifiers in the url) and re-render the view.  There&#8217;s also the option that you&#8217;ve chosen to cache an HTML5 page in the DOM and can simply transition to that page in your UI upon navigating to particular points in your Backbone.js history.</p>
-
-<p>So while this code hopefully helps provide some examples for the UI prospective, don&#8217;t forget the back-end piece of ensuring that the url&#8217;s you are saving can be returned to and provide valid results.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -842,6 +704,10 @@ App.Views.TodoView = Backbone.View.extend({
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/01/a-sencha-dirty-store-records-quirk/">A Sencha Dirty Store Records Quirk</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a>
       </li>
     
@@ -855,10 +721,6 @@ App.Views.TodoView = Backbone.View.extend({
     
       <li class="post">
         <a href="/blog/2013/01/15/give-in-to-javascript/">Embrace your Javascript Overlords</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr with Grails for Live Client-Side Reloading</a>
       </li>
     
   </ul>
