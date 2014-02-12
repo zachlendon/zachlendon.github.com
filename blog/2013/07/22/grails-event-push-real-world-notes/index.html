@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Updated ExtJs4 Mock Ajax Library for Jasmine - Zach Lendon's Blog</title>
+  <title>Grails Event Push real-world notes - Zach Lendon's Blog</title>
   <meta name="author" content="Zach Lendon">
 
   
-  <meta name="description" content="@kenspirit does a nice job in this series (part 1 and part 2) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit &hellip;">
+  <meta name="description" content="Today&#8217;s excellent talk by Colin Harrington at GR8ConfUS on ASync and in particular the Events Push plugin has me wanting to note some thoughts &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zachlendon.github.com/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine">
+  <link rel="canonical" href="http://zachlendon.github.com/blog/2013/07/22/grails-event-push-real-world-notes">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,7 +67,7 @@
   
   <header>
     
-      <h1 class="entry-title">Updated ExtJs4 Mock Ajax Library for Jasmine</h1>
+      <h1 class="entry-title">Grails Event Push Real-world Notes</h1>
     
     
       <p class="meta">
@@ -83,14 +83,21 @@
   
 
 
-<time datetime="2013-04-02T14:17:00-05:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+<time datetime="2013-07-22T14:32:00-05:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="https://twitter.com/kenspirit">@kenspirit</a> does a nice job in this series (<a href="http://www.thinkingincrowd.me/blog/2012/08/13/extjs-jasmine-unit-test-part-1-philosophy-and-test-for-store/">part 1</a> and <a href="http://www.thinkingincrowd.me/blog/2012/08/30/extjs-jasmine-unit-test-part-2-ajax-behavior-2/">part 2</a>) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit testing ExtJS applications.  While <a href="https://twitter.com/kenspirit">@kenspirit</a> provides a nice adaptation of <a href="https://github.com/pivotal/jasmine-ajax">jasmine-ajax</a> for ExtJs (as jasmine-ajax only supports JQuery and Prototype currently), that adaptation does not work with ExtJS4.  The following <a href="https://gist.github.com/zachlendon/5295365">updated version should work - at least for basic Ajax mocking</a>.  Let me know if you have issues and I can (futher) update and improve upon this latest adaptation.</p>
+<div class="entry-content"><p>Today&#8217;s excellent talk by Colin Harrington at <a href="gr8conf.us">GR8ConfUS</a> on ASync and in particular the Events Push plugin has me wanting to note some thoughts I&#8217;ve developed through using the plugin at my current client.</p>
+
+<p>First off, I use the following BuildConfig.groovy definition, so that I can exclude the resources plugin version used by the plugin:</p>
+
+<pre><code>    compile("org.grails.plugins:events-push:1.0.M7") {
+        excludes 'resources', 'org.atmosphere:atmosphere-runtime'
+    }
+</code></pre>
 </div>
 
 
@@ -113,7 +120,7 @@
   
 
 
-<time datetime="2013-04-02T14:17:00-05:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+<time datetime="2013-07-22T14:32:00-05:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
       
 
 
@@ -121,7 +128,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zachlendon.github.com/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/" data-via="" data-counturl="http://zachlendon.github.com/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zachlendon.github.com/blog/2013/07/22/grails-event-push-real-world-notes/" data-via="" data-counturl="http://zachlendon.github.com/blog/2013/07/22/grails-event-push-real-world-notes/" >Tweet</a>
   
   
   
@@ -130,10 +137,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/" title="Previous Post: ExtJS4: Fun (not really) with styling checkboxes in grids">&laquo; ExtJS4: Fun (not really) with styling checkboxes in grids</a>
+        <a class="basic-alignment left" href="/blog/2013/07/01/a-sencha-dirty-store-records-quirk/" title="Previous Post: A Sencha Dirty Store Records Quirk">&laquo; A Sencha Dirty Store Records Quirk</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/07/01/a-sencha-dirty-store-records-quirk/" title="next Post: A Sencha Dirty Store Records Quirk">A Sencha Dirty Store Records Quirk &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/02/12/starbucks-big-missed-opportunity/" title="next Post: Starbucks' Big Missed Opportunity">Starbucks' Big Missed Opportunity &raquo;</a>
       
     </p>
   </footer>
