@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Kickstarter and the fine line of investment - Zach Lendon's Blog</title>
-  <meta name="author" content="Your Name">
+  <title>Zach Lendon's Blog</title>
+  <meta name="author" content="Zach Lendon">
 
   
-  <meta name="description" content="Kickstarter&#8217;s Terms of Use states that it is a platform &#8220;where Project Creators run campaigns to fund creative projects by offering &hellip;">
+  <meta name="description" content="@kenspirit does a nice job in this series (part 1 and part 2) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment">
+  <link rel="canonical" href="http://zachlendon.github.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input type="hidden" name="q" value="site:zachlendon.github.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -62,12 +62,435 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Kickstarter and the Fine Line of Investment</h1>
+      <h1 class="entry-title"><a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T14:17:00-05:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://twitter.com/kenspirit">@kenspirit</a> does a nice job in this series (<a href="http://www.thinkingincrowd.me/blog/2012/08/13/extjs-jasmine-unit-test-part-1-philosophy-and-test-for-store/">part 1</a> and <a href="http://www.thinkingincrowd.me/blog/2012/08/30/extjs-jasmine-unit-test-part-2-ajax-behavior-2/">part 2</a>) of blog posts talking about some of the pain points (Stores, Ajax handling) of unit testing ExtJS applications.  While <a href="https://twitter.com/kenspirit">@kenspirit</a> provides a nice adaptation of <a href="https://github.com/pivotal/jasmine-ajax">jasmine-ajax</a> for ExtJs (as jasmine-ajax only supports JQuery and Prototype currently), that adaptation does not work with ExtJS4.  The following <a href="https://gist.github.com/zachlendon/5295365">updated version should work - at least for basic Ajax mocking</a>.  Let me know if you have issues and I can (futher) update and improve upon this latest adaptation.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/">ExtJS4: Fun (Not Really) With Styling Checkboxes in Grids</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T23:57:00-05:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.sencha.com/blog/optimizing-ext-js-4-1-based-applications">&#8216;boxready&#8217;</a> is a good event to listen to to change checkbox CSS styles programmatically when using <a href="http://docs.sencha.com/ext-js/4-1/#!/api/Ext.selection.CheckboxModel">CheckboxModels</a> in an extJS4 panel where the &#8216;grid&#8217; is defined as an &#8216;item&#8217; in a panel.  When you are defining an actual &#8216;grid&#8217; component though (i.e., when you are doing more than simply tying an extJS &#8216;store&#8217; to a standard grid component via an item) and want to change checkboxes within a grid listener, you&#8217;ll want to use the &#8216;viewready&#8217; event instead - with a &#8216;defer&#8217; to boot.  I admit that it seems that there should be another event that one could use and not have to do a &#8216;defer&#8217; timing hack, but so far my attempts at trying other events have proven fruitless (I&#8217;d love to be advised differently).  All of these events in question are shown in <a href="http://docs.sencha.com/ext-js/4-1/source/AbstractView.html#Ext-view-AbstractView">AbstractView&#8217;s source</a>, and when using extJS4+ it&#8217;s worthwhile to understand all that goes on in this class, especially event-wise.</p>
+
+<p>The reason one needs to do this styling logic within these events is that the style changes must be applied after everything in your component is visible and any styles are calculated and applied to elements within that component.  While you would think you could do these style settings when you instantiate the CheckboxModel and have them honored, and  there are random illusions to this working online - you will find that it will fail you under certain scenarios.  As an example, &#8216;headerConfig&#8217; in CheckboxModel has a headerWidth property.  Howevever, if you look at <a href="https://code.google.com/p/extjs4/source/browse/trunk/ext4/extjs/src/selection/CheckboxModel.js?r=3">CheckboxModel&#8217;s source</a>, setting the config does not appear to actually change it&#8217;s value (and in practice this is what I&#8217;ve seen).  In certain grid scenarios, depending especially on the &#8216;flex&#8217; property of other columns, you may (ok - will) find ExtJS4+ re-sizing your checkbox columns to excessive sizes - usually on the big end, but potentially too small based on your requirements.</p>
+
+<p>While it is possible and in practice probably better &#8216;code quality&#8217; to actually get the grid or panel component (using Ext.getCmp() - by id) and then access the CheckboxModel using a ComponentQuery selector - and then change it&#8217;s width, another approach is to do it in a more JQuery-like fashion (in Sencha syntax of course).  I quite honestly find this to be a bit easier to do, and when working with Sencha, sometimes easy is really welcomed.  This is also satisfactorily safe to do in my opinion if you don&#8217;t have lots of elements on a page such that the querying performance of these operations will impact the usability of your app.  With a pretty complex app I&#8217;ve not seen the below queries suffer performance-wise:</p>
+
+<div><script src='https://gist.github.com/5260802.js?file='></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>The above code would change the checkboxes in the first row of a grid - the first item finding the styled header checkbox (so you can select all rows) and the second loop finding all rows and grabbing the first element from that row.  Yes, you don&#8217;t need the &#8216;each&#8217; necessarily in the first scenario, but it doesn&#8217;t hurt anything either.</p>
+
+<p>While extJS4 and Sencha Touch continue to prove to be very powerful frameworks, understanding their nuances and pain points continues to be an interesting journey to be embarking upon.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-26T00:25:00-05:00" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Both <a href="http://karma-runner.github.com/0.8/index.html">Testacular</a> - recently renamed &#8216;Karma&#8217; and <a href="https://github.com/airportyh/testem">Testem</a> are great test runners for improving your javascript unit testing workflow.  While Karma was developed as part of AngularJS, it is certainly useful as a test runner for javascript unit tests regardless of frameworks and/or libraries leveraged.  Key features that both Testem and Karma have include:</p>
+
+<ul>
+<li>Support for running/driving multiple browsers simultaneously, including headless browsers (i.e., PhantomJS)</li>
+<li>Support for the main testing libraries out there - QUnit, Jasmine, Mocha, etc.</li>
+<li>Both will watch the source/test files (that you selectively configure) for changes and automatically re-run tests</li>
+<li>Both provide support for local and CI use</li>
+<li>Both are terminal focused</li>
+</ul>
+
+
+<p>For me I have found that I have a slight preference for Testem, for a few reasons.  One is the Text User Interface:</p>
+
+<p><img src="/images/green.png"></p>
+
+<p>which allows you to better visually see the test results by browsers, whereas Testacular provides this as straight output text lines:</p>
+
+<p><img src="/images/output.png"></p>
+
+<p>Secondly, the ability to also run tests from a browser is a nice alternative when the terminal is not providing you as much flexibility as you want in certain testing scenarios and development workflows.  Configuring this option alongside testem is much more doable than alongside Karma.  The minimal configuration that is required is described in the &#8216;Node Travelers&#8217; Toolchain blogpost (in the <a href="http://blog.nodetraveller.com/Javascript/My-javascript-testing-toolchain.html">icing on the cake section</a>).  As is the case in the terminal, the main benefit over a normal Jasmine/browser TDD workflow is that with this testem integration we get watching of changes and automatic reload of the browser on changes. As a small aside, I&#8217;ve always found the <a href="https://github.com/esbie/jasmine-bootstrap">Jasmine Bootstrap Reporter</a> to be a great reporter for browser Jasmine reports and significantly better than the default Jasmine Html reporters.</p>
+
+<p><img src="/images/jasmineHtml.png"></p>
+
+<p> Do note that when using testem with Jasmine that you may have to slightly modify your Jasmine javascript source to ensure that the #testem hashtag is honored when choosing to run a suite of tests or individual tests from the browser.</p>
+
+<p>On the Karma side, I must admit that Karma does seem to have nice debugging integration into Webstorm IDE, an IDE that I&#8217;ve tried but never really used extensively.  I also know Sublime Text 2 has <a href="http://sokolovstas.github.com/SublimeWebInspector/">similar javascript debugging support available of late</a>, so it&#8217;s possible that Karma&#8217;s debugging support is stronger than Testem and that leveraging it on an ongoing basis would prove its value.  You&#8217;ll note in the Karma documentation &#8220;video&#8221; that support for &#8220;dumping&#8221; object state, console logging to the terminal, etc. provides a pretty strong workflow from Karma for those who want their javascript development TDD workflow view to look like a Sublime Text editor on one side of the screen and a terminal window on the other.  This editor/terminal workflow is philosophically inline with what Testem is aiming for as well though, so I&#8217;m not sure you&#8217;re really losing this if your workflow fits one IDE/coding/execution paradigm vs. any other.</p>
+
+<p>Ultimately both Karma and Testem will work for your javascript unit testing workflows and they are better than the alternative - no javascript unit tests and/or no javascript unit test runner.  I have found evidence that helps confirm my impression that Testem seems to have been around longer as a project (and thus be a bit more mature), have a bit better documentation, and be more widely used.  I&#8217;d also be remiss not to say that I have also found it mildly annoying that Google Search Result links to &#8220;Testacular&#8221; Google Groups posts are &#8220;dead ends&#8221;, as the group has been renamed (to Karma).  When there is ultimately such a small difference between a set of frameworks and/or libraries, it is to me these little things that can add up and - for now - would make me lean towards and recommend Testem.  That being said, hopefully we&#8217;ll continue to see innovation from both of these tools and therefore hopefully the story on their usefulness and viability is only in the early stages.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/15/give-in-to-javascript/">Embrace Your Javascript Overlords</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-15T22:53:00-06:00" pubdate data-updated="true">Jan 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My first job out of college was working on OfficeMax.com (for OfficeMax) in 1999, where I primarily wrote a combination of client-side code and server-side javascript, run on Netscape Enterprise Server.  For several years thereafter, I attempted to run far away from this &#8216;javascript&#8217; world, as javascript at the time seemed to be a mess to deal with (this is well pre-JQuery, let alone all the other javascript libraries/frameworks of today), and languages such as Java were where it was happening.  I can remember going to Java One for a few years in the early 2000&#8217;s and the buzz there was very WWDC-like.  It seems hard to believe in this day and age I&#8217;m sure.  But it&#8217;s indicative of the tech industry being both cyclical and the fact that today&#8217;s hot technologies are tomorrow&#8217;s not quite so cool (but still widely used) technologies.</p>
+
+<p>In the past few years I&#8217;ve strived to leverage the Java and object-oriented knowledge I gained from several years prior with other dynamic JVM languages and frameworks, as well as pried my way onto native and mobile web initiatives/projects.  Aside from native mobile application work, I&#8217;ve found that working with javascript has been best at providing me with an ever-increasing amount of development enjoyment. The innovation in the space is often mind-boggling, and many of the solutions I run across are amongst some of the most elegant libraries and frameworks around today.</p>
+
+<p>That being said, integrating client-side javascript libraries and frameworks with non-javascript-friendly (more on that in a moment) back-ends produces a set of challenges.  There&#8217;s state synchronization, rather manual synchronizing of changes, wiring together script packages/packaging, CSS compilers, code minifiers, client-side MV+ frameworks, templating engines, client-side history, ORM, database, etc.  And that&#8217;s just for starters.  While this  certainly can be managed by seasoned developers, after doing the work of adding all these pieces, wiring them together, testing them and maintaining them, one at <em>some point</em> has to ask themselves: &#8220;is this the best way to be doing this?&#8221;</p>
+
+<p>I&#8217;ve long since asked the questioned and told myself &#8220;no&#8221; many times.  That being said, few web projects are greenfield and rarely - or basically <em>never</em> - are decisions that drive technologies used at companies politics-free.  Certainly though I&#8217;ve reached a level of exasperation with it.  Frameworks such as <a href="http://derbyjs.com/">Derby</a>, <a href="https://github.com/socketstream/socketstream">Socketstream</a> and <a href="http://meteor.com/">Meteor</a> are either built upon or provide out-of-the-box (or optional yet rather easy) integration with popular libraries such as Node.js, Express, Socket.IO, Browserify and MongoDB.  And many more.  One of the challenges I see in the midwest as a developer is that there has been <em>so</em> much investment made my organizations and developers in the Java stack, and to a lesser extent Rails, that moving to these other stacks is an enormous challenge.  There&#8217;s misperceptions out there I&#8217;m sure that provide excuses for resistance: performance issues, documentation issues, SEO issues, maturity, etc.  As I similarly alluded to earlier, these are the same stories that get thrown out in the early part of any adoption cycle for impending technology trends.  Some of them have validity to a degree, but they are widely overblown. From my vantage point, being that I&#8217;m a strong believer in the &#8220;realtime&#8221; web replacing the &#8220;dynamic&#8221; web we see today, platforms such as Node.js - or Vert.x - are our web application platforms of - at the very least - the not too distant future.  And what language works on all these platforms, and all of the frameworks I mentioned above?  Javascript.  That&#8217;s why I say embrace it.  That&#8217;s why I pushed in some talks I gave last year to &#8220;learn it&#8221; - to understand it - and most importantly, to know how to use it properly.</p>
+
+<p>I&#8217;m hopeful in 2013 that I can - at the very least - help push the conversation at local companies and with local developers in my area forward on the types of technology stacks I&#8217;ve mentioned above.  I have ideas for talks, blog posts and demo apps (not chat apps…) ready to be explored, to excite others, to help show the possibilities and dispel the myths.  In short, I&#8217;m looking forward to helping others embrace our javascript overlords.  If the interest and ideas are out there, I would certainly be very interested in joining forces with other local developers in this fight as well.  We can either whine about the state of affairs at clients and companies (a trap I personally at times fall into), or we can actively work to show why there is a better way.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr With Grails for Live Client-Side Reloading</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T23:32:00-06:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There&#8217;s various solutions out there for seeing client-side changes quickly in a browser.  One such solution, <a href="http://livereload.com/">livereload.com</a>, was mentioned by Ted Naleid in <a href="https://twitter.com/tednaleid/status/269105419274813440">this tweet</a>.  While I don&#8217;t have much experience with livereload, I&#8217;m not completely convinced I&#8217;m doing it wrong (as he suggests somewhat tongue-in-cheek) either (though it wouldn&#8217;t be the first time I&#8217;ve been wrong).  I have been using another solution, and I wanted to share with you how to start using it with your own Grails application, if you so choose.  The solution I have been leveraging for live-reload-&#8220;like&#8221; functionality is the Chrome extension <a href="http://tin.cr/">Tincr</a>.  This post attempts to give you a quick guide to leveraging Tincr with your Grails 2.x application and talk briefly about how it helps you iterate your client-side development efforts quicker.</p>
+
+<p>Once you install the Chrome extension, it will show up as a tab in your Chrome Developer Tools view. <img src="http://s8.postimage.org/5eas13ujn/Screen_Shot_2012_11_16_at_11_38_02_PM.png" alt="your Chrome Developer tools, like so:" /></p>
+
+<p>You&#8217;ll notice that I choose the Configuration File Option in Tincr:</p>
+
+<p><img src="http://s13.postimage.org/oop700vtv/Screen_Shot_2012_11_16_at_11_41_23_PM.jpg?noCache=1353130755" alt="'Configuration File option'" />.</p>
+
+<p>This allows me to customize the mapping, ideally through regular expressions, between the project&#8217;s resource files and where they are located in my project.  I do this mapping because I have had issues with it working simply with an http web server, though others might have better success with one of the other pre-configured options.</p>
+
+<p>Nevertheless, here&#8217;s an example tincr.json file, which you need to put right under the web-app folder of your project.</p>
+
+<div><script src='https://gist.github.com/4093607.js?file='></script>
+<noscript><pre><code>{
+    &quot;toFile&quot; : [
+        {&quot;from&quot;: &quot;/js/(.+\\.js)&quot;,
+            &quot;to&quot;: &quot;/js/$1&quot;},
+        {&quot;from&quot;: &quot;/css/(.+\\.css)&quot;,
+            &quot;to&quot;: &quot;/css/$1&quot;}
+    ]
+}</code></pre></noscript></div>
+
+
+<p>As you can see, this basic JSON simply maps js and css resources under the web-app folder, which I set as the Tincr ROOT folder in Chrome, to the project&#8217;s js/ and cs/ folders.  It works recursively for those directories as well.  You can of course get more fancy depending on how your project&#8217;s resources are defined.</p>
+
+<p>One &#8216;gotcha&#8217; to watch out for is resource bundling.  To get this to work (at least without major pains), I turn resource bundling off in the Grails 2.x apps I use Tincr in by adding:</p>
+
+<p>grails.resources.debug=true</p>
+
+<p>in the development environment config section of my project&#8217;s Config.groovy file.  While this adds additional parameters to my resource files, it breaks them out of Grails&#8217; default bundling strategy and more easily allows Tincr to do its magic.</p>
+
+<p>As for that magic, Tincr allows me to make changes to javascript or CSS files in the browser (in Chrome Developer Tools), use Cmd+S (save shortcut, this being the Mac version of a save shortcut), and have the changes be saved back to the file system (and viewable instantly in my IDE).  On the reverse side, as you can see in the <a href="http://tin.cr/docs.html">Tincr documentation</a>, you can define a &#8216;fromFile&#8217; JSON attribute, which will allow you to save a file in your favorite IDE and have Chrome bring in the changes <em>without</em> reloading the page in the browser.  Luckily, in this simple configuration example, Tincr is smart enough to reverse-engineer the &#8216;fromFile&#8217; mapping, so defining it is redundant, and I have therefore not done so.</p>
+
+<p>So hopefully this provides you an impetus and a guide to start to &#8220;tinkering&#8221; (you knew it was coming…) with   <a href="http://tin.cr/">Tincr</a> in your Grails application!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices/">Four End User Advantages of HTML5 Apps for Mobile Devices</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-14T22:45:00-06:00" pubdate data-updated="true">Nov 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Rarely a week goes by where there is not another article about &#8220;HTML5 Mobile Webapps vs. Native Apps.&#8221;  Like criticizing Apple, these articles are great at generating traffic (and money?) for the hosting website but often settle little and rarely provide much value for either audience.  That being said, seemingly everyone has an opinion on these topics, so don&#8217;t expect the articles to end anytime soon. Before I take a stand on one side of the aisle - in order to rebutt points in a specific article I&#8217;ll mention shortly, I should preface this post by saying that I hate the &#8216;vs.&#8217; argument of mobile apps - I believe they both have their time and place, and for enterprise customers I often think &#8220;both&#8221; is the correct answer.  With that out of the way - the latest in the line of these &#8216;vs.&#8217;-style articles that was brought to my attention today was Jeffrey Sambells post: <a href="http://jeffreysambells.com/2012/11/14/on-building-html5-apps-for-mobile-devices">&#8220;On Building HTML5 Apps for Mobile Devices&#8221;</a>.  While discussing the article point by point is <em>very tempting</em> - such as the incorrect summarization of Facebook&#8217;s current stance on HTML5 (they still get much more non-native mobile traffic than native, and HTML5 is still very much in play at Facebook) - the point in the article I want to address is:</p>
+
+<ul>
+<li>Where’s the end user advantages (for mobile web)?</li>
+</ul>
+
+
+<p>Well here they are - a list of 4 of the top &#8220;end user advantages&#8221; for mobile web applications:</p>
+
+<ol>
+<li>Mobile browsers crash less frequently than your native app.  Users get pretty annoyed when apps crash.</li>
+<li>Not everyone wants to download an app.  ~30% of mobile users have <em>never</em> downloaded <em>any</em> app.  If they don&#8217;t want to download your app, but want to use your product on their mobile device, having a mobile web app <em>is</em> your other option.</li>
+<li>Some native applications will not work on your device - or don&#8217;t exist for your device.  If you are using an older iOS version, or certain Android devices/OS&#8217;s (for example) - or are part of the <a href="https://twitter.com/search?q=%23wearethe3percent">#wearethe3percent Window Phone</a> crowd or 1 of the 30 people still using Blackberry devices, then mobile web apps are often your only option to reach these users.</li>
+<li>Some use cases are better suited for mobile web applications.  This Mashable article <a href="http://mashable.com/2012/06/06/mobile-site-mobile-app-infographic/">under the Content Usage section</a> does a decent job of summarizing such use cases.  Additionally, people who are travelling, especially in slower bandwith areas, will often be able to more quickly access the information this type of information via a mobile web app.</li>
+</ol>
+
+
+<p>There are definitely points in Jeremy&#8217;s article that I very much agree with - including the mythical fallacy: &#8220;I can just generate a native app from my mobile webapp using product X and it&#8217;ll be great!&#8221;  In the end, mobile and native aren&#8217;t going away anytime soon, and there are very strong arguments behind, and reasons for, leveraging each approach as part of an overall mobile strategy.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/12/log4javascript-local-storage-custom-appender/">Log4Javascript - Quick Intro and a LocalStorage Custom Appender</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T20:52:00-06:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>With the continuing shift to the client-side for more and more processing in today&#8217;s web applications, be they mobile-specific or not, effective logging of the running state of the client-side part of your application is critical.  There are a bevy of different solutions to your client-side logging needs, and I present this customization of <a href="http://log4javascript.org/">Log4Javascript</a> as not an endorsement of <a href="http://log4javascript.org/">Log4Javascript</a> as any sort of holy grail - but it is inevitably a demonstration that it is a viable, customizable solution that you should consider if you are working on a project that has needs in this area.</p>
+
+<p><a href="http://log4javascript.org/">Log4Javascript</a> comes with a collection of appenders and a grouping of logging levels that gives you the type of logging you&#8217;ve probably grown accustomed to in your server-side development efforts.  Hop over to this JSFiddle and look at a sample Hello World type example that would output a log message to your <a href="http://jsfiddle.net/QpK4t/10/">Browser Console</a></p>
+
+<p>Beyond having appenders that write to the console, out of the box, <a href="http://log4javascript.org/">Log4Javascript</a> includes appenders that write to popups, alert, and submit ajax requests to the server.  Using any combination of them are pretty simple operations - they include different options, and can be combined to provide a flexible yet powerful logging strategy.</p>
+
+<p>The proposed LocalStorageAppender I reference adds to this toolkit by providing the ability to store log messages in a browser&#8217;s LocalStorage, if available. This can be an effective way to store messages for later use, if needed. For example, if you get an error later in the running of your application, wouldn&#8217;t it be nice to upload a set of log messages that happened before the error on the client side, along with the actual error?  And if you didn&#8217;t have an error, not to post anything?</p>
+
+<p>For the proposed LocalStorageAppender, I leverage <a href="https://github.com/marcuswestin/store.js">Store.js</a>, a &#8220;stupid simple&#8221; micro javascript framework for interacting with LocalStorage.  As with the introductory example earlier, let&#8217;s first look at the core, working code that logs to LocalStorage in JSFiddle.  To see it working, check out in your browser development tools (Firebug/Chrome Developer Tools/etc) your LocalStorage resource pane to see the &#8220;Hello World&#8221; log message <a href="http://jsfiddle.net/QpK4t/12/">jsfiddle.jshell.net logging &#8220;Hello World&#8221; under a timestamped key</a></p>
+
+<p>Let&#8217;s break down the &#8216;running example&#8217; code a bit here.</p>
+
+<div><script src='https://gist.github.com/4063813.js?file='></script>
+<noscript><pre><code>    LocalStorageAppender.prototype = new log4javascript.Appender();
+    LocalStorageAppender.prototype.layout = new log4javascript.NullLayout();
+    LocalStorageAppender.prototype.threshold = log4javascript.Level.DEBUG;</code></pre></noscript></div>
+
+
+<p>Here we set up our appender object with some pretty self-explanatory functions that all log4javascript appenders need to implement.</p>
+
+<p>The nuts and bolts of our appender is in the append method, so let&#8217;s look at that</p>
+
+<div><script src='https://gist.github.com/4063826.js?file='></script>
+<noscript><pre><code>LocalStorageAppender.prototype.append = function(loggingEvent) {
+        var appender = this;
+
+        var getFormattedMessage = function() {
+            var layout = appender.getLayout();
+            var formattedMessage = layout.format(loggingEvent);
+            if (layout.ignoresThrowable() &amp;&amp; loggingEvent.exception) {
+                formattedMessage += loggingEvent.getThrowableStrRep();
+            }
+            return formattedMessage;
+        };
+
+        if (store.enabled) {
+            var formattedMessage = getFormattedMessage();
+            store.set(JSON.stringify(new Date().getTime()), formattedMessage);
+            if (loggingEvent.level == Level.FATAL) {
+                var allStoreMessages = store.getAll();
+                var logMessageStr = loggingEvent.messages[0] + &quot; - previous javascript log messages:&quot;;
+                for(var prop in allStoreMessages) {
+                    if(allStoreMessages.hasOwnProperty(prop)) {
+                        var storeMessage = allStoreMessages[prop];
+                        if (storeMessage instanceof Array) {
+                            logMessageStr += storeMessage[0] + &quot;\n&quot;;
+                        } else {
+                            logMessageStr += storeMessage + &quot;\n&quot;;
+                        }
+                    }
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/logging',
+                    data: 'level=' + loggingEvent.level + '&amp;message=' + logMessageStr,
+                    async: true,
+                    success: function(r){
+                        store.clear();
+                    }
+                });
+            }
+        }
+    };</code></pre></noscript></div>
+
+
+<p>The getFormattedMessage function is the same as the one used for the BrowserConsoleAppender - nothing particularly special for our use case. You&#8217;ll see that I then use Store.js to see if the browser supports LocalStorage, and if it does I store the message in LocalStorage with a timestamped key.  You could certainly be more fancy with how you determine what your &#8216;keys&#8217; are but this assures them to be unique (obviously important) and provides a simple, (hopefully) understandable example.</p>
+
+<p>You&#8217;ll then see an example use case where one could, if the loggingEvent has a level that meets a certain threshhold (you could also choose to log events that exceed a certain threshhold), one can get all messages, and format them into a string, separated by newlines, with the last log message presented in the beginning of the string, and a &#8220;log stack&#8221; of messages for all the messages scooped up from LocalStroage. Those messages are then posted to the server, and upon our success handler  the LocalStorage store is cleared.</p>
+
+<p>Additional items to think about when using this type of logging appender includes cleaning up the LocalStorage data you have added when it is no longer useful - for example, upon entry/exit of portions of your application.</p>
+
+<p>I think using LocalStorage is a nice approach for local through production environment client-side logging as it provides a way to consistenly log the client portion of your application and selectively report back to the server when you have issues.  It especially hits a nice sweet spot for mobile web applications where client-side code execution/handling can unexpectedly vary across OS&#8217;s and their various browsers.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the Fine Line of Investment</a></h1>
     
     
       <p class="meta">
@@ -90,7 +513,7 @@
   </header>
 
 
-<div class="entry-content"><p>Kickstarter&#8217;s <a href="http://www.kickstarter.com/terms-of-use">Terms of Use</a> states that it is a platform &#8220;where Project Creators run campaigns to fund creative projects by offering rewards to raise money from Backers.&#8221;  In many ways this has similarities to investing in the stock market, where one puts up money with the hope of getting a reward - more money.  When you do get more money in the market, you pay taxes on it.  When you get a reward on Kickstarter, the Terms of Use makes no reference of any such tax liability.  In the Kickstarter case, how much an individual might pay in the unlikely event that doing so would make them a good citizen is incredibly unclear, as the &#8220;value&#8221; of the product often cannot be easily determined.</p>
+  <div class="entry-content"><p>Kickstarter&#8217;s <a href="http://www.kickstarter.com/terms-of-use">Terms of Use</a> states that it is a platform &#8220;where Project Creators run campaigns to fund creative projects by offering rewards to raise money from Backers.&#8221;  In many ways this has similarities to investing in the stock market, where one puts up money with the hope of getting a reward - more money.  When you do get more money in the market, you pay taxes on it.  When you get a reward on Kickstarter, the Terms of Use makes no reference of any such tax liability.  In the Kickstarter case, how much an individual might pay in the unlikely event that doing so would make them a good citizen is incredibly unclear, as the &#8220;value&#8221; of the product often cannot be easily determined.</p>
 
 <p>Kickstarter is also like the stock market in that you could wake up one morning and realize you&#8217;ve lost all of your investment.  In the stock market, at least you would be able to deduct a capital loss on your taxes, while with a Kickstarter project you are left to kick yourself for backing the project, and to fight for something from the project creator(s).  I believe it is fair not to tax the rewards on Kickstarter if you don&#8217;t get to also deduct the losses.</p>
 
@@ -100,55 +523,318 @@
 
 <p>As more and more &#8216;business&#8217; gets conducted on Kickstarter, I believe it will come under regulatory scrutiny.  There has not been a public marketplace to date that I&#8217;m aware of that hasn&#8217;t in time fallen under regulatory scrutiny.  You could say that selling new products on Amazon and eBay is a pretty wide open marketplace, but I would retort that those marketplaces are indeed under scrutiny.  As I said, money chases money, and when money and products change hands in a very public fashion and aren&#8217;t taxed or regulated, that doesn&#8217;t last forever.</p>
 
-<p>I&#8217;ve backed two Kickstarter projects personally - <a href="http://www.kickstarter.com/projects/smartthings/smartthings-make-your-world-smarter/">SmartThings</a> and <a href="http://www.kickstarter.com/projects/supr/slim-the-thinnest-wallet-ever">SlimWallet</a> - both great looking projects - and if those projects go well I&#8217;m certainly likely to press my luck and invest in more projects that I find appealing.  Like any market, blow ups and the regulators will come a calling.  I&#8217;m going to enjoy the marketplace before outside forces try and ruin it.  And I&#8217;m going to try and &#8220;invest&#8221; carefully - and so should you.  Often Wall Street is considered a &#8220;legal casino&#8221; and be assured that Kickstarter is also a casino - an online, hipster casino.  As in all casinos, the house has the advantage, so in time you will lose.  Place your bets carefully.</p>
+<p>I&#8217;ve backed two Kickstarter projects personally <a href="http://www.kickstarter.com/projects/smartthings/smartthings-make-your-world-smarter/">SmartThings</a> and <a href="http://www.kickstarter.com/projects/supr/slim-the-thinnest-wallet-ever">SlimWallet</a> - both great looking projects - and if those projects go well I&#8217;m certainly likely to press my luck and invest in more projects that I find appealing.  Like any market, blow ups and the regulators will come a calling.  I&#8217;m going to enjoy the marketplace before outside forces try and ruin it.  And I&#8217;m going to try and &#8220;invest&#8221; carefully - and so should you.  Often Wall Street is considered a &#8220;legal casino&#8221; and be assured that Kickstarter is also a casino - an online, hipster casino.  As in all casinos, the house has the advantage, so in time you will lose.  Place your bets carefully.</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Zach Lendon</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2012-08-31T21:14:00-05:00" pubdate data-updated="true">Aug 31<span>st</span>, 2012</time>
+    </article>
+  
+  
+    <article>
       
-
-
-    </p>
+  <header>
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://yoursite.com/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/" data-via="" data-counturl="http://yoursite.com/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/" >Tweet</a>
-  
-  
-  
-</div>
-
+      <h1 class="entry-title"><a href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/">Improving Mobile Capabilities of Geb Pages and Spock Specifications</a></h1>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/" title="Previous Post: Improving Mobile Capabilities of Geb Pages and Spock Specifications">&laquo; Improving Mobile Capabilities of Geb Pages and Spock Specifications</a>
-      
-      
-    </p>
-  </footer>
-</article>
+    
+      <p class="meta">
+        
 
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-15T22:54:00-05:00" pubdate data-updated="true">May 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I spoke this evening at <a href="ojug.org">OJUG</a> about automated testing of mobile web applications on mobile devices with <a href="http://www.gebish.org/">Geb</a> and <a href="http://code.google.com/p/spock/">Spock</a>.  The source code that I demoed during the talk is on <a href="https://github.com/zachlendon/flashcards-grails/">GitHub</a>.</p>
+
+<p>With the original forked application, different Grails layouts were used for the mobile version (which leverages <a href="jquerymobile.com/">JQuery Mobile</a>) of the app vs. the non-mobile version.  As can be found in many similar web applications, the mobile version acts as a slimmed down version of the desktop application, with limited functionality and different urls to access certain pages.  This creates challenges when writing functional tests for the application - even with great frameworks such as Geb and Spock.  While one way to address these challenges is to build the application differently so as to not encounter them, in reality that may not be in the developer&#8217;s complete control.  And even when it is, it likely is not a viable  solution for removing all &#8220;challenges&#8221; that will come about when trying to create functional tests around a mobile web application.  It&#8217;s just not an area that is refined to that level yet.  For my forked &#8216;flashcards&#8217; app, I addressed some of the challenges, but left many in place.  With that as a baseline, I did, as part of my talk, give a few examples of ways to address these challenges using Geb and Spock that I&#8217;d like to share.</p>
+
+<p>One challenge I referenced above is with the URL that you &#8216;drive&#8217; to using <a href="http://seleniumhq.org/docs/03_webdriver.html">WebDriver</a> is typically defined statically as a <a href="http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#url">url property in your Geb Page Object</a>.  But what if you want to use the same page object but have a different url for your mobile version?  And what if you want to define a different <a href="http://www.gebish.org/manual/current/api/geb-core/geb/Page.html#at">at</a> condition when you have arrived at the page for mobile?  Define mobileUrl and mobileAt properties of course - which I do in this base page class.</p>
+
+<div><script src='https://gist.github.com/2707275.js?file='></script>
+<noscript><pre><code>
+class GebRemotePage extends Page {
+
+
+    /**
+     * Returns the constant part of the url to this page.
+     * &lt;p&gt;
+     * This implementation returns the static url property of the class.
+     */
+    @Override
+    String getPageUrl() {
+        //if we are using a remote web driver then we have to use the ip address of the local instance.
+        //To keep the individual page objects &quot;cleaner&quot;, we try to deduce when we need the full url
+        //and put it in only in those scenarios.  The downside is we assume port.  Perhaps/ideally
+        //there's a way to ask grails for just this part and we can make that dynamic
+        if (getDriver() instanceof RemoteWebDriver) {
+            RemoteWebDriver remoteWebDriver = getDriver()
+            DesiredCapabilities capabilities = remoteWebDriver.getCapabilities()
+            def contextPathToUse = this.class.url
+            def hostToUse = &quot;localhost&quot;
+            if ([&quot;android&quot;, &quot;iPhone&quot;, &quot;iPad&quot;].contains(capabilities.browserName)) {
+                hostToUse = InetAddress.getLocalHost().getHostAddress()
+                if (this.class.hasProperty(&quot;mobileUrl&quot;)) {
+                    contextPathToUse = this.class.mobileUrl
+                }
+            }
+            return &quot;http://&quot; + hostToUse + &quot;:&quot; + &quot;8080&quot; + contextPathToUse
+        }
+        this.class.url
+    }
+
+    @Override
+    boolean verifyAt() {
+        if (this.class.hasProperty(&quot;mobileAt&quot;)) {
+            def verifier = this.class.mobileAt?.clone()
+            if (verifier) {
+                verifier.delegate = this
+                verifier.resolveStrategy = Closure.DELEGATE_FIRST
+                verifier()
+            } else {
+                true
+            }
+            super.verifyAt()
+        }
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>You&#8217;ll notice that this page also builds the entire url to use and determines whether we need to use an ip address or can just use localhost.  This allows Geb to communicate with my mobile browser in both emulator and on-device scenarios.  I find this to be easier than port forwarding scenarios, which is the other known strategy for finding mobile browser instances that are not located on the same ip address as the running application.</p>
+
+<p>Another issue that I have run into that I&#8217;ve addressed through a base Spock &#8216;Spec&#8217; class is wanting to know when I&#8217;m testing via a mobile device.  I find this useful as it allows me the option of having &#8216;switch&#8217; logic in my Geb code, if I so choose, to do something different if I&#8217;m running on a mobile device vs. if I&#8217;m not - similar to <a href="http://grails.org/plugin/spring-mobile">withMobileDevice from the Spring Mobile Grails Plugin</a>.</p>
+
+<p>An example base specification for this might look like:</p>
+
+<div><script src='https://gist.github.com/2707341.js?file='></script>
+<noscript><pre><code>class MobileSpec extends GebReportingSpec {
+
+    @Shared
+    def isMobile = false
+
+    def setupSpec() {
+        if (getBrowser().driver instanceof RemoteWebDriver) {
+            RemoteWebDriver remoteWebDriver = getBrowser().driver
+            DesiredCapabilities capabilities = remoteWebDriver.getCapabilities()
+            if ([&quot;android&quot;, &quot;iPhone&quot;, &quot;iPad&quot;].contains(capabilities.browserName)) {
+                isMobile = true
+            }
+        }
+    }
+}</code></pre></noscript></div>
+
+
+<p>With this &#8216;isMobile&#8217; @Shared property, I can now execute logic specific to mobile or non-mobile devices in specifications that extend this MobileSpec class.  You&#8217;ll see in my <a href="https://github.com/zachlendon/flashcards-grails/blob/master/test/functional/com/kgrodzicki/flashcard/grails/LessonsSpec.groovy">LessonsSpec</a> class that I do switch &#8216;setup&#8217; logic for my tests where I need to bootstrap some data.  With the desktop application, I can do this by uploading a file.  On a mobile web application - especially iOS - good luck uploading a file on a mobile web application.  With my &#8216;isMobile&#8217; switch, I can choose to manually &#8216;seed&#8217; an in-memory H2 database with data when on a mobile device, vs. actually uploading the data through the browser when on the desktop device.  While this creates some undesirable complexity in the code, it does allow for re-usability of the Spec class between mobile and desktop versions.  In the end, it&#8217;s the developer&#8217;s choice and the one chosen in this particular test isn&#8217;t intended to be correct for this use case or any other - it&#8217;s more intended to demonstrate capabilities.</p>
+
+<p>In the end, hopefully this sample application and the pulled out examples above will help drive discussion about what we can do to make testing functionality of both mobile and web applications easier and more pain free.  While the tools, like Geb and Spock, that we have at our disposal currently can be used pretty cleverly, trying to test mobile and web versions of applications functionally side-by-side can be challenging.  As the source code in the sample application alludes to, the styling applied by JQuery Mobile, Bootstrap, JQuery UI and other frameworks makes defining selectors to get at DOM content challenging, and makes creating pages and specifications that can be used for both versions a somewhat foolhardy endeavor (though my sample forked application tries).  Couple this with running these tests on mobile emulators and mobile devices (instead of simply spoofing user-agent strings to act like mobile device), and developers and test builders are created with an array of challenges.  Limiting these challenges going forward will allow us to help the clients we work for create better quality, tested desktop and mobile web applications in the years ahead.</p>
 </div>
+  
+  
 
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: From Hashbangs to HTML5 PushState</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-21T22:45:00-06:00" pubdate data-updated="true">Feb 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>All kinds of <a href="http://isolani.co.uk/blog/javascript/BreakingTheWebWithHashBangs">talk lately</a> about hash-bang URLs (http://url#fragment) and how they will lead to the end of civilization (seemingly) this coming December.  I was one of the guilty parties, implementing hash-bangs in a heavy AJAX mobile application I&#8217;ve been working on, even though nearly (if not) all of the browsers the users would have would support <a href="http://dev.w3.org/html5/spec-author-view/history.html#dom-history-pushstate">HTML5 PushState</a>.  I did this being aware of the burdgeoning holy war, and had always intended to convert.  It actually fits more cleanly into the conventions of the Grails back-end for the application - i.e., http://url/fragment - and it&#8217;s HTML5, the future - plus all the other reasons those articles allude to (however opinionated or valid they might actually be).  Nevertheless, my two-staged approach was more a matter of already knowing how to do the hash-bang approach and needing to understand better the pushState approach prior to implementing it.</p>
+
+<p>Much of the mobile webapp in question is built upon <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>  (which is AWESOME) - and I find it can often take a bit of investigative work (blog/documentation/source code reading + experimentation) to figure out exactly how to do something &#8216;well&#8217;.  It&#8217;s really pretty simple to switch between a &#8216;hashbang&#8217; approach and a pushState approach with backbone.js - but it didn&#8217;t always seem that way.  First some setup then some key takeaways:</p>
+
+<p>Typically at some point in your backbone.js MVC workflow you are updating the state of your models and/or collections on the front-end through communicating with the server.  As a result, backbone.js will fire a corresponding add, remove or reset event, which you as the event-informed developer will hook into and bind your own JS function(s) against.  If you wish to update the browser url - such that it is bookmarkable and works as a state in your browser&#8217;s history - you&#8217;ll typically do this here.</p>
+
+<p>So there&#8217;s your background.  Now let&#8217;s look at the two scaled down versions of common backbone.js use cases and discuss the subtle different of approach - first hashbang:</p>
+
+<div><script src='https://gist.github.com/1881657.js?file='></script>
+<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
+ $.mobile.pushStateEnabled = false;
+
+new App.Routers.TodosRouter();
+Backbone.history = Backbone.history || new Backbone.History({});
+Backbone.history.start();
+
+//Backbone Router
+App.Routers.TodosRouter = Backbone.Router.extend({
+
+    routes: {
+        &quot;:toDoId&quot;:        &quot;loadTodo&quot;
+    },
+
+    initialize: function() {
+        this.todos = new App.Collections.Todos();
+        this.todoView = new App.Views.TodoView({collection: this.todos});
+        this.todos.fetch();
+    },
+
+    loadTodo: function(toDoId) {
+     //hear you have your id and your todos collection
+     //you would use underscore and/or backbone collection functionality to get
+     //the model object (represented by model below) you want
+     ...
+     this.todoView.setModelAndRender(model);
+    }
+
+// The View
+App.Views.TodoView = Backbone.View.extend({
+
+    el:'.content',
+
+    events: {
+    },
+
+    initialize:function () {
+        this.collection.bind('reset', this.navigateToTodo, this);
+        this.collection.bind('add', this.navigateToTodo, this);
+    },
+
+    navigateToTodo () {
+        Backbone.history.navigate('#' + this.model.toJSON().id);
+        return this;
+    },
+
+    setModelAndRender: function(model) {
+        this.model = model;
+        this.render();
+        return this;
+    },
+
+    render:function () {
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>then HTML5 pushState:</p>
+
+<div><script src='https://gist.github.com/1881650.js?file='></script>
+<noscript><pre><code>//document.ready() js function contains backbone.js instantiating code which:
+ $.mobile.pushStateEnabled = false;
+
+new App.Routers.TodosRouter();
+Backbone.history = Backbone.history || new Backbone.History({});
+Backbone.history.start({pushState:true});
+
+//Backbone Router
+App.Routers.TodosRouter = Backbone.Router.extend({
+
+    routes: {
+        &quot;/contextPath/:toDoId&quot;:        &quot;loadTodo&quot;
+    },
+
+    initialize: function() {
+        this.todos = new App.Collections.Todos();
+        this.todoView = new App.Views.TodoView({collection: this.todos});
+        this.todos.fetch();
+    },
+
+    loadTodo: function(toDoId) {
+     //hear you have your id and your todos collection
+     //you would use underscore and/or backbone collection functionality to get
+     //the model object (represented by model below) you want
+     ...
+     this.todoView.setModelAndRender(model);
+    }
+
+// The View
+App.Views.TodoView = Backbone.View.extend({
+
+    el:'.content',
+
+    events: {
+    },
+
+    initialize:function () {
+        this.collection.bind('reset', this.navigateToTodo, this);
+        this.collection.bind('add', this.navigateToTodo, this);
+    },
+
+    navigateToTodo () {
+        Backbone.history.navigate('/todos/' + this.model.toJSON().id, {trigger: true});
+        return this;
+    },
+
+    setModelAndRender: function(model) {
+        this.model = model;
+        this.render();
+        return this;
+    },
+
+    render:function () {
+    }
+}
+</code></pre></noscript></div>
+
+
+<p>They look pretty similar.  Note that with the pushState version we have a $.mobile.pushStateEnabled = false;.  That&#8217;s so if our project has JQuery Mobile that it plays nicely.  There&#8217;s the whole {pushState:true} option declaration when starting the backbone history, but that&#8217;s pretty evident/expected.  Notice with the router that the pushState version has the /contextPath before the :toDoId while the hashbang version just has the :toDoId.  Backbone&#8217;s history functionality has the concept of a &#8216;root&#8217; url - where presumably one could set the contextPath and all url&#8217;s in your backbone implementation would be based off of that, but I found in practice that my url&#8217;s at best weren&#8217;t consistent on when they did or didn&#8217;t use that root definition.  So I&#8217;d almost recommend seeing if a root url works for you (especially if you have no contextPath) but having this as your fallback. I almost found it clearer to define the full context path where needed - as opposed to having a root path used in Backbone history - and ensuring it would work there - and then leveraging a context path elsewhere - vs. just being explicit across the few areas where url&#8217;s exist in one&#8217;s backbone app.  Nevertheless, I could imagine this &#8216;base root context path&#8217; being configured as a global variable (or in general be configurable) for some apps where the contextPath could change based on environment (helping bring consistency to your url syntax across your backbone.js layer), but for my use case I haven&#8217;t crossed that bridge yet.</p>
+
+<p>Back on topic, note the:</p>
+
+<p>Backbone.history.navigate(&#8216;#&#8217; + this.model.toJSON().id);</p>
+
+<p>vs.</p>
+
+<p>Backbone.history.navigate(&#8216;/todos/&#8217; + this.model.toJSON().id, {trigger: true});</p>
+
+<p>This in general seems pretty sensible, but the trigger scenario is significant here (and is noted in the backbone docs) - so that my loadTodo router method gets called.  With the hashbang approach, the hashchange event was just being picked up and the router method was getting called by backbone.  I believe there&#8217;s something I could be doing where the router function in question could automatically be called in both scenarios - but it&#8217;s good to know that if the router method isn&#8217;t getting called that this option is the cure.  It&#8217;s much more elegant at least than the manual calls to the router method that you see in some online examples.</p>
+
+<p>Other than that, you&#8217;re really set.  Regardless of implementation, the &#8220;requirement&#8221; is that the url&#8217;s you &#8220;save&#8221; should be bookmarkable - i.e., not broken at least and should presumably show the same state of the app that the user sees when the url is initially presented.  That makes them also convenient to use as the identifiers in your history, as in the end you are manipulating the browser&#8217;s &#8216;back&#8217; history state, should your user use the browser&#8217;s back button in your javascript heavy application.   And even though in practice backbone.js is most ideal in SPA (single page architecture) applications, even in those applications, being able to return to previous view states is often a requirement.  One trick in restoring these &#8216;states&#8217; is often the models you need to re-render those states are in the backbone collections you already have locally, so you may just be able to grab the right models (based on one or more identifiers in the url) and re-render the view.  There&#8217;s also the option that you&#8217;ve chosen to cache an HTML5 page in the DOM and can simply transition to that page in your UI upon navigating to particular points in your Backbone.js history.</p>
+
+<p>So while this code hopefully helps provide some examples for the UI prospective, don&#8217;t forget the back-end piece of ensuring that the url&#8217;s you are saving can be returned to and provide valid results.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
 <aside class="sidebar">
   
     <section>
@@ -156,19 +842,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/08/31/kickstarter-and-the-fine-line-of-investment/">Kickstarter and the fine line of investment</a>
+        <a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/05/15/improving-mobile-capabilities-of-geb-pages-and-spock-specifications/">Improving Mobile Capabilities of Geb Pages and Spock Specifications</a>
+        <a href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/">ExtJS4: Fun (not really) with styling checkboxes in grids</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/02/21/backbone-dot-js-from-hashbangs-to-pushstate/">Backbone.js: from Hashbangs to HTML5 PushState</a>
+        <a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/02/17/up-and-blogging-with-mao/">Up and Blogging with Octopress, Mao and GitHub Pages</a>
+        <a href="/blog/2013/01/15/give-in-to-javascript/">Embrace your Javascript Overlords</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr with Grails for Live Client-Side Reloading</a>
       </li>
     
   </ul>
@@ -182,11 +872,10 @@
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Your Name -
+  Copyright &copy; 2013 - Zach Lendon -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

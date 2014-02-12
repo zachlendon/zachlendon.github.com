@@ -5,7 +5,7 @@ date: 2012-11-12 20:52
 comments: true
 categories: 
 ---
-With the continuing shift to the client-side for more and more processing in today's web applications, be they mobile-specific or not, effective logging of the running state of this part of your application is critical.  There are a bevy of different solutions to your client-side logging needs, and I present this customization of [Log4Javascript](http://log4javascript.org/) as not an endorsement of [Log4Javascript](http://log4javascript.org/) as any sort of holy grail - but it is inevitably a demonstration that it is a viable, customizable solution that you should consider if you are working on a project that has needs in this area.
+With the continuing shift to the client-side for more and more processing in today's web applications, be they mobile-specific or not, effective logging of the running state of the client-side part of your application is critical.  There are a bevy of different solutions to your client-side logging needs, and I present this customization of [Log4Javascript](http://log4javascript.org/) as not an endorsement of [Log4Javascript](http://log4javascript.org/) as any sort of holy grail - but it is inevitably a demonstration that it is a viable, customizable solution that you should consider if you are working on a project that has needs in this area.
 
 [Log4Javascript](http://log4javascript.org/) comes with a collection of appenders and a grouping of logging levels that gives you the type of logging you've probably grown accustomed to in your server-side development efforts.  Hop over to this JSFiddle and look at a sample Hello World type example that would output a log message to your [Browser Console](http://jsfiddle.net/QpK4t/10/)
 

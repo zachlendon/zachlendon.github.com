@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Tincr with Grails for Live Client-Side Reloading - Zach Lendon's Blog</title>
+  <meta name="author" content="Zach Lendon">
+
+  
+  <meta name="description" content="There&#8217;s various solutions out there for seeing client-side changes quickly in a browser. One such solution, livereload.com, was mentioned by &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zachlendon.github.com/blog/2012/11/16/using-tincr-with-grails-for-live-reloading">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Zach Lendon's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zach Lendon's Blog</a></h1>
+  
+    <h2>Mobile, iOS, Grails and more</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zachlendon.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using Tincr With Grails for Live Client-Side Reloading</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T23:32:00-06:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>There&#8217;s various solutions out there for seeing client-side changes quickly in a browser.  One such solution, <a href="http://livereload.com/">livereload.com</a>, was mentioned by Ted Naleid in <a href="https://twitter.com/tednaleid/status/269105419274813440">this tweet</a>.  While I don&#8217;t have much experience with livereload, I&#8217;m not completely convinced I&#8217;m doing it wrong (as he suggests somewhat tongue-in-cheek) either (though it wouldn&#8217;t be the first time I&#8217;ve been wrong).  I have been using another solution, and I wanted to share with you how to start using it with your own Grails application, if you so choose.  The solution I have been leveraging for live-reload-&#8220;like&#8221; functionality is the Chrome extension <a href="http://tin.cr/">Tincr</a>.  This post attempts to give you a quick guide to leveraging Tincr with your Grails 2.x application and talk briefly about how it helps you iterate your client-side development efforts quicker.</p>
+
+<p>Once you install the Chrome extension, it will show up as a tab in your Chrome Developer Tools view. <img src="http://s8.postimage.org/5eas13ujn/Screen_Shot_2012_11_16_at_11_38_02_PM.png" alt="your Chrome Developer tools, like so:" /></p>
+
+<p>You&#8217;ll notice that I choose the Configuration File Option in Tincr:</p>
+
+<p><img src="http://s13.postimage.org/oop700vtv/Screen_Shot_2012_11_16_at_11_41_23_PM.jpg?noCache=1353130755" alt="'Configuration File option'" />.</p>
+
+<p>This allows me to customize the mapping, ideally through regular expressions, between the project&#8217;s resource files and where they are located in my project.  I do this mapping because I have had issues with it working simply with an http web server, though others might have better success with one of the other pre-configured options.</p>
+
+<p>Nevertheless, here&#8217;s an example tincr.json file, which you need to put right under the web-app folder of your project.</p>
+
+<div><script src='https://gist.github.com/4093607.js?file='></script>
+<noscript><pre><code>{
+    &quot;toFile&quot; : [
+        {&quot;from&quot;: &quot;/js/(.+\\.js)&quot;,
+            &quot;to&quot;: &quot;/js/$1&quot;},
+        {&quot;from&quot;: &quot;/css/(.+\\.css)&quot;,
+            &quot;to&quot;: &quot;/css/$1&quot;}
+    ]
+}</code></pre></noscript></div>
+
+
+<p>As you can see, this basic JSON simply maps js and css resources under the web-app folder, which I set as the Tincr ROOT folder in Chrome, to the project&#8217;s js/ and cs/ folders.  It works recursively for those directories as well.  You can of course get more fancy depending on how your project&#8217;s resources are defined.</p>
+
+<p>One &#8216;gotcha&#8217; to watch out for is resource bundling.  To get this to work (at least without major pains), I turn resource bundling off in the Grails 2.x apps I use Tincr in by adding:</p>
+
+<p>grails.resources.debug=true</p>
+
+<p>in the development environment config section of my project&#8217;s Config.groovy file.  While this adds additional parameters to my resource files, it breaks them out of Grails&#8217; default bundling strategy and more easily allows Tincr to do its magic.</p>
+
+<p>As for that magic, Tincr allows me to make changes to javascript or CSS files in the browser (in Chrome Developer Tools), use Cmd+S (save shortcut, this being the Mac version of a save shortcut), and have the changes be saved back to the file system (and viewable instantly in my IDE).  On the reverse side, as you can see in the <a href="http://tin.cr/docs.html">Tincr documentation</a>, you can define a &#8216;fromFile&#8217; JSON attribute, which will allow you to save a file in your favorite IDE and have Chrome bring in the changes <em>without</em> reloading the page in the browser.  Luckily, in this simple configuration example, Tincr is smart enough to reverse-engineer the &#8216;fromFile&#8217; mapping, so defining it is redundant, and I have therefore not done so.</p>
+
+<p>So hopefully this provides you an impetus and a guide to start to &#8220;tinkering&#8221; (you knew it was coming…) with   <a href="http://tin.cr/">Tincr</a> in your Grails application!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zach Lendon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T23:32:00-06:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zachlendon.github.com/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/" data-via="" data-counturl="http://zachlendon.github.com/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/14/end-user-advantages-of-html5-apps-for-mobile-devices/" title="Previous Post: Four End User Advantages of HTML5 Apps for Mobile Devices">&laquo; Four End User Advantages of HTML5 Apps for Mobile Devices</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/15/give-in-to-javascript/" title="next Post: Embrace your Javascript Overlords">Embrace your Javascript Overlords &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/02/updated-extjs4-mock-ajax-library-for-jasmine/">Updated ExtJs4 Mock Ajax Library for Jasmine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/27/extjs4-fun-not-really-with-styling-checkboxes-in-grids/">ExtJS4: Fun (not really) with styling checkboxes in grids</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/quick-thoughts-on-testem-vs-testacular-karma/">Thoughts on Testem vs Testacular (Karma)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/15/give-in-to-javascript/">Embrace your Javascript Overlords</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/16/using-tincr-with-grails-for-live-reloading/">Using Tincr with Grails for Live Client-Side Reloading</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Zach Lendon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
