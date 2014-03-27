@@ -4,7 +4,7 @@
   <title><![CDATA[Zach Lendon's Blog]]></title>
   <link href="http://zachlendon.github.com/atom.xml" rel="self"/>
   <link href="http://zachlendon.github.com/"/>
-  <updated>2013-07-01T10:30:31-05:00</updated>
+  <updated>2014-03-27T10:41:40-05:00</updated>
   <id>http://zachlendon.github.com/</id>
   <author>
     <name><![CDATA[Zach Lendon]]></name>
@@ -12,6 +12,105 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Notes from a Dropwizard / Spring Migration]]></title>
+    <link href="http://zachlendon.github.com/blog/2014/03/24/notes-from-a-dropwizard-and-spring-migration/"/>
+    <updated>2014-03-24T15:37:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2014/03/24/notes-from-a-dropwizard-and-spring-migration</id>
+    <content type="html"><![CDATA[<p>Dropwizard w/ Spring Framework support provides a nice migration pit-stop from a traditional JEE web application architecture to a more micro-services based architecture.  HMSOnline&#8217;s <a href="https://github.com/hmsonline/dropwizard-spring">dropwizard-spring</a> project provides the best, current option for integrating Dropwizard and Spring.  For the project I worked on, I leveraged Dropwizard 0.6.2 (current prod release) and Spring 3.0.28 (latest 3.x series release).  I also, as you can tell from the code examples, leveraged Groovy, through the use of <a href="https://github.com/kyleboon/lazybones-dropwizard-template">Kyle Boon&#8217;s excellent lazybones-dropwizard template</a>.  I used version 0.4 of lazybones, as it&#8217;s the latest version compliant with the template (at time of use anyway).</p>
+
+<p>As for the Dropwizard-Spring integration - HMSOnline facilitates configuration of the &#8220;Dropwizard Spring &#8221; bridge - if you will - through YAML.  You can see in dropwizard-spring&#8217;s <a href="https://github.com/hmsonline/dropwizard-spring/blob/master/src/main/java/com/hmsonline/dropwizard/spring/SpringService.java">SpringService</a> that it in essence is plucking configuration options you are setting in the YAML configuration and setting them in Jersey.  The idea being that for each DropWizard provider, health check, resource, etc. that you define in your YAML configuration, that there is a corresponding Spring bean with the same name that can be instantiated.  This is where the migration pit-stop comes in - you are able to leverage existing bean definitions which can have a myriad of nested dependencies that could be challenging to unravel all at once.  The nice thing is that using dropwizard-spring doesn&#8217;t tie you into only defining your Jersey beans/resources/etc. in Spring - you can simply extend dropwizard-spring&#8217;s SpringService and in your run method:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   @Override
+</span><span class='line'>    public void run(SpringServiceConfiguration configuration, Environment environment) throws ClassNotFoundException {</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will have access to the same config and environment that dropwizard-spring&#8217;s SpringService is working with - allowing you to configure Jersey directly.  I&#8217;d recommend for new features to do this, and to work towards migrating existing Spring-managed beans into Jersey through configuration in your service that extends SpringService.</p>
+
+<p>Not only will you be able to override the run method of SpringService, but you&#8217;ll have to override the main method, and you may find it beneficial to override the initialize method.  For example, in the bootstrap is where you&#8217;ll add bundles - I for example leverage a &#8216;SwaggerBundle&#8217;, as I include the Swagger-UI as part of my uberjar, so that the services I am bundling have a UI right with the jar.  My Swagger Bundle class looks simply like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class SwaggerBundle extends AssetsBundle {
+</span><span class='line'>
+</span><span class='line'>    public static final String PATH = "/swagger-ui";
+</span><span class='line'>
+</span><span class='line'>    public SwaggerBundle() {
+</span><span class='line'>        super(PATH)
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    public void run(Environment environment) {
+</span><span class='line'>        environment.addResource(new ApiListingResourceJSON())
+</span><span class='line'>        super.run(environment)
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and the swagger-ui directory is placed in the project under src/main/resources.  Then, in the service initialize method, the bundle is initialized:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public void initialize(Bootstrap&lt;SpringServiceConfiguration&gt; bootstrap) {
+</span><span class='line'>    bootstrap.addBundle(new SwaggerBundle())
+</span><span class='line'>    super.initialize(bootstrap)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One final item to note related to dropwizard-spring - in your
+YAML configuration - the default maxIdleTime has what I found to be a low default value of 1s - while ideally your API would return a result in this time frame, you&#8217;ll find in many enterprises this value is too short universally, and you&#8217;ll want to bump it up a bit.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Starbucks' Big Missed Opportunity]]></title>
+    <link href="http://zachlendon.github.com/blog/2014/02/12/starbucks-big-missed-opportunity/"/>
+    <updated>2014-02-12T00:10:00-06:00</updated>
+    <id>http://zachlendon.github.com/blog/2014/02/12/starbucks-big-missed-opportunity</id>
+    <content type="html"><![CDATA[<p>Starbucks stores have traditionally been both an individual workhaven and a meeting place for professionals.  However, with limited seating, uncomfortable chairs, an often loud environment, and limited outlets, Starbucks is not in the business of providing their customers a coworking location.  However, they should be.</p>
+
+<p>Coworking is a trend that is growing in strength and revenue for companies such as <a href="http://www.regus.com">Regus</a>.  Professionals are <a href="http://www.fastcompany.com/3004788/future-coworking-and-why-it-will-give-your-business-huge-edge#4">not only reporting improved performance, creativity and self-confidence in these workspaces, they are reporting that they are feeling healthier in them as well</a>. Coworking spaces provide not only desk areas for individuals to work at, but often meeting spaces, copier/printer services, and more.  <a href="http://www.mycafeinc.com">Cafe Inc</a>, a Minneapolis-based startup,  joins a growing trend nationally of &#8220;proworking&#8221; locations - coworking locations that provide additional amenities such as a lounge, cafe, and coffee shop area alongside traditional coworking amenities (<a href="https://www.facebook.com/mycafeinc/photos_stream?ref=br_tf">photos</a>).</p>
+
+<p>Most Starbucks stores as currently constructed do not lend themselves to coworking or proworking from their customers.  However, Starbucks has shown an interest in branching into the &#8220;cafe&#8221; space as they continue to expand their food offerings.  Starbucks also already offers limited lounge areas in many of their locations.  Having stores that have traditional seating areas as they exist now, but also premium spaces where Starbucks could upsell professional coworking services, especially on a day pass basis, can meet a market need that is currently going largely unfulfilled.  Many current Starbucks locations could not support this model, requiring either new locations to be built with this in mind, or retrofitting existing locations (one&#8217;s that are not standalone where accompanying space could be acquired).  Starbucks has shown a willingness to tweak their brand and innovate of late, and this is an opportunity for them to become even more ingrained in their customers daily lives.  Workers who show a willingness, at the spur of the moment (or even planned in advance) to pay to have their business meeting in private, or use a secured wifi in a more private, comfortable setting for their own work, also would be likely to buy more beverages and food from the Starbucks store adjacent to their short-term professional work area.  Shouldn&#8217;t Starbucks be in the business of meeting their customers&#8217; needs in a way that also maximizes Starbucks&#8217; potential profit?  If they don&#8217;t, I believe other businesses will step into their place and not only cement a missed opportunity for Starbucks, but slowly start to erode at portions of their core business.</p>
+
+<p>Professionals already are going into Starbucks to conduct business and to work - and Starbucks wants that, to a point.  Starbucks should consider embracing what their customers are already doing and better execute at profiting off of it by providing proworking services in the not too distant future.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Grails Event Push real-world notes]]></title>
+    <link href="http://zachlendon.github.com/blog/2013/07/22/grails-event-push-real-world-notes/"/>
+    <updated>2013-07-22T14:32:00-05:00</updated>
+    <id>http://zachlendon.github.com/blog/2013/07/22/grails-event-push-real-world-notes</id>
+    <content type="html"><![CDATA[<p>Today&#8217;s excellent talk by Colin Harrington at <a href="gr8conf.us">GR8ConfUS</a> on ASync and in particular the Events Push plugin has me wanting to note some thoughts I&#8217;ve developed through using the plugin at my current client.</p>
+
+<p>First off, I use the following BuildConfig.groovy definition, so that I can exclude the resources plugin version used by the plugin:</p>
+
+<pre><code>    compile("org.grails.plugins:events-push:1.0.M7") {
+        excludes 'resources', 'org.atmosphere:atmosphere-runtime'
+    }
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Sencha Dirty Store Records Quirk]]></title>
